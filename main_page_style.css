@@ -17,12 +17,16 @@ span {
 	color: black;
 }
 /* Makes the random word given appear in black */
-.word_to_translate {
-	color: black;
+.wrapper {
+	text-align: center;
+	height:110px;
 }
 /* Makes the correct response line appear in blue */
-.correct {
-	color: blue;
+.button {
+	/*position: absolute;*/
+	height:100px;
+	width:300px;
+	font-size: 25px;
 }
 /* Makes the incorrect response line appear in red */
 .wrong {
