@@ -13,19 +13,27 @@
     <!-- Load any supplemental Javascript libraries here -->
     <script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
 
+
     <script type="text/javascript" src="jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+
+
+    <link rel="stylesheet" type ="text/css" href="jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css">
+
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="bootstrap-3.1.1-dist/css/bootstrap.min.css" />
 
 
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+</script>
 
 
 
-    <script type="text/javascript">
 
 
-    </script>
 
 
 </head>
@@ -40,20 +48,36 @@
       Save
     </button> <br><br>
 
+    <table>
+        <tr>
+            <td>Task: </td>
+            <td><input type="text" name="TaskTitle"></td>
+        </tr>
 
-    Task: <input type="text" name="TaskTitle"><br>
+        <tr>
+            <td>Deadline: </td>
+            <td><input type="text" id="datepicker"></td>
+        </tr>
 
-    Deadline: <input type="text" name="Deadline"><br>
+        <tr>
+            <td>Assigned To: </td>
+            <td><input type="text" name="Assigned"></td>
+        </tr>
 
-    Assigned To: <input type="text" name="Assigned"><br>
+        <tr>
+            <td>Rewards:</td>
+            <td><input type="text" name="Rewards"></td>
+        </tr>
 
-    Rewards: <input type="text" name="Rewards"><br>
+        <tr>
+            <td>Reminders:</td>
+            <td><input type="text" name="Reminders"></td>
+        </tr>
+    </table>
 
-    Reminders: <input type="text" name="Reminders"><br>
 
     Details: <br>
-    <textarea rows="4" cols="50" text-align = "left">Enter details here
-    </textarea>
+    <textarea rows="4" cols="50" placeholder="Enter details here..."></textarea>
 
 
 
