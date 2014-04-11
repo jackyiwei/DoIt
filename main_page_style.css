@@ -1,0 +1,34 @@
+html {
+    background-color: #eee;
+	font-family: "Trebuchet MS";
+	color: gray;
+}
+
+/* Your CSS here */
+/* gap requirement */
+td {
+	padding-bottom:10px;
+	padding-right:40px;
+	padding-top:10px;
+	text-align:center;
+}
+/* Makes the language to/language from text appear in black */
+span {
+	color: black;
+}
+/* Makes the random word given appear in black */
+.word_to_translate {
+	color: black;
+}
+/* Makes the correct response line appear in blue */
+.correct {
+	color: blue;
+}
+/* Makes the incorrect response line appear in red */
+.wrong {
+	color: red;
+}
+/* Makes the incorrect user response appear crossed out */
+.wrongAnswer {
+	text-decoration:line-through;
+}
