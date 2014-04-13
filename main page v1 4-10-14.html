@@ -35,6 +35,11 @@
 						task_to_add += '<div class="task_reward">$0</div>';
 					}
 					task_to_add += '</div>';
+					
+					
+					task_to_add += '<div class="done">Did.It</div>';
+					
+					
 					if (tasks[i].done){
 						task_to_add += '<ul class="list"><li>Mark as not done</li>';
 					}
@@ -42,7 +47,7 @@
 						task_to_add += '<ul class="list"><li>Mark as done</li>';
 					}
 					task_to_add += '<li>Edit</li><li>Delete</li></ul>';
-					task_to_add += '</div>';
+					task_to_add += '</div>';										
 					
 					if (tasks[i].assigned){
 						$('#' + tasks[i].assigned + '_col').append(task_to_add);
@@ -50,8 +55,12 @@
 					else{
 						$('#Optional_col').append(task_to_add);
 					}
+					
 					if (tasks[i].done){
 						$('#' + tasks[i].id).css('background', '#32cd32');
+						$('#' + tasks[i].id).find('.done').css('display','initial');
+					} else {
+						$('#' + tasks[i].id).find('.done').css('display','none');
 					}
 				}
 				$('.task').styleddropdown();
@@ -115,11 +124,13 @@
 							d.markDone(task[0].id, null)
 							$(this).html('Mark as not done');
 							task.css('background', '#32cd32');
+							task.find('.done').css('display','initial');
 						}
 						else { //Mark as Undone
 							d.markNotDone(task[0].id, null);
 							$(this).html('Mark as done');
 							task.css('background', '#dddddd');
+							task.find('.done').css('display','none');
 						}
 						//task.find('.task_text').html($(this).html());
 						
