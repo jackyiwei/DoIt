@@ -37,18 +37,31 @@ span {
 
 .calendar_button {
 	display: inline-block;
+	background: #b0e0e6;
+	height: 30px;
+	width: 45px;
+	font-size: 18px;
+}
+.calendar_button_today {
+	display: inline-block;
+	background: #b0e0e6;
+	height: 30px;
+	width: 70px;
+	font-size: 18px;
+	text-align: center;
 }
 
 .calendar_date_text {
 	display: inline-block;
 	font-size: 20px;
+	text-align: center;
+	width: 210px;
 }
 
 /* Makes button position happen */
 .wrapper {
-	/*text-align: left;*/
 	position: absolute;
-	left: 50px;
+	left: 45%; /*50px*/
 	top: 50px;
 	height:110px;
 	padding-bottom: 10px;
