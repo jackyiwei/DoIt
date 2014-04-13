@@ -5,7 +5,7 @@ html {
 }
 
 table {
-	padding-top: 10px;
+	padding-top: 0px;
 }
 
 td {
@@ -28,13 +28,30 @@ span {
 	padding-top: 10px;
 }
 
+.calendar {
+	text-align: right;
+	padding-right: 0px;
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+.calendar_button {
+	display: inline-block;
+}
+
+.calendar_date_text {
+	display: inline-block;
+	font-size: 20px;
+}
+
 /* Makes button position happen */
 .wrapper {
 	/*text-align: left;*/
 	position: absolute;
-	left: 20%;
+	left: 50px;
 	top: 50px;
 	height:110px;
+	padding-bottom: 10px;
 }
 /* Makes the correct response line appear in blue */
 .button {
@@ -42,7 +59,9 @@ span {
 	height:75px;
 	width:200px;
 	font-size: 25px;
+	background: #b0e0e6;
 }
+
 /* Border surrounding all tasks of a person */
 .task_col {
 	padding-left: 10px;
@@ -99,3 +118,4 @@ span {
 	font-weight: 1000;
 	color: black;
 }
+
