@@ -22,13 +22,36 @@
 			var doneLoading = function() {        
 				//Your code here
 				console.log(d.getAllTasks());
+				var tasks = d.getAllTasks();
+				for(var i=0; i < tasks.length; i++){
+					console.log("here");
+					var task_to_add = '<div class="task" id="' + tasks[i].id + '">';
+					task_to_add += '<div class="task_text">' + tasks[i].name + '</div>';
+					task_to_add += '<div class="task_details">';
+					task_to_add += '<div class="task_date">Due: ' + tasks[i].month + '/';
+					task_to_add += tasks[i].day + '/' + tasks[i].year + '</div>';
+					if (tasks[i].reward){
+						task_to_add += '<div class="task_reward">$' + tasks[i].reward + '</div>';
+					}
+					else{
+						task_to_add += '<div class="task_reward">$0</div>';
+					}
+					task_to_add += '</div>';
+					task_to_add += '<ul class="list"><li>Mark as Done</li>';
+					task_to_add += '<li>Edit</li><li>Delete</li></ul>';
+					task_to_add += '</div>';
+					
+					if (tasks[i].assigned){
+						$('#' + tasks[i].assigned + '_col').append(task_to_add);
+					}
+					else{
+						$('#Optional_col').append(task_to_add);
+					}
+				}
+				$('.task').styleddropdown();
 			}
 			
 			d = new Data(doneLoading);
-			
-			
-			//NOT HERE			
-			$('.task').styleddropdown();
 		});
 
 		(function($){
@@ -122,94 +145,10 @@
 		</tr>
 		<!--This is the row displaying everything the user will interact with. (The random word to translate, the input box, and submit button).-->
 		<tr>
-			<td id="molly_col" class='task_col'> <!-- class="lang_to"> -->
-				<div class="task">
-					
-					<div class="task_text">
-						Task wash the bathroom
-					</div>
-					<div class="task_details">
-						<div class="task_date">
-							Due: 5/25/14
-						</div>
-						<div class="task_reward">
-							$10
-						</div>
-					</div>
-					<ul class="list">
-						<li>Mark as Done</li>
-						<li>Edit</li>
-						<li>Delete</li>
-					</ul>
-				</div>
-				<div class="task">
-					
-					<div class="task_text">
-						Task wash the bathroom
-					</div>
-					<div class="task_details">
-						<div class="task_date">
-							Due: 5/25/14
-						</div>
-						<div class="task_reward">
-							$10
-						</div>
-					</div>
-					<ul class="list">
-						<li>Mark as Done</li>
-						<li>Edit</li>
-						<li>Delete</li>
-					</ul>
-				</div>
-			</td>
-			<td id="north_col" class='task_col'>
-				<div class="task">
-					
-					<div class="task_text">
-						Task wash the bathroom
-					</div>
-					<div class="task_details">
-						<div class="task_date">
-							Due: 5/25/14
-						</div>
-						<div class="task_reward">
-							$10
-						</div>
-					</div>
-				</div>
-			</td>
-			<td id="andrew_col" class='task_col'>
-				<div class="task">
-					
-					<div class="task_text">
-						Task bathroom
-					</div>
-					<div class="task_details">
-						<div class="task_date">
-							Due: 5/25/14
-						</div>
-						<div class="task_reward">
-							$10
-						</div>
-					</div>
-				</div>
-			</td>
-			<td id="optional_col" class='task_col'>
-				<div class="task">
-					
-					<div class="task_text">
-						Task wash the bathroom
-					</div>
-					<div class="task_details">
-						<div class="task_date">
-							Due: 5/25/14
-						</div>
-						<div class="task_reward">
-							$10
-						</div>
-					</div>
-				</div>
-			</td>
+			<td id="Molly_col" class='task_col'></td>
+			<td id="North_col" class='task_col'></td>
+			<td id="Andrew_col" class='task_col'></td>
+			<td id="Optional_col" class='task_col'></td>
 		</tr>
 	</table>
 
