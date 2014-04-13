@@ -1,29 +1,46 @@
 html {
     background-color: #eee;
 	font-family: "Trebuchet MS";
-	color: gray;
+	color: black;
 }
 
-/* Your CSS here */
-/* gap requirement */
-td {
+table {
+	padding-top: 10px;
+}
 
+td {
 	text-align:center;
+}
+
+h2{
+	margin: 0px;
 }
 /* Makes the language to/language from text appear in black */
 span {
 	color: black;
 }
-/* Makes the random word given appear in black */
+
+.logo {
+	font-size: 50px;
+	font-family: 'Fredericka the Great';
+	text-align: right;
+	padding-right:50px;
+	padding-top: 10px;
+}
+
+/* Makes button position happen */
 .wrapper {
-	text-align: center;
+	/*text-align: left;*/
+	position: absolute;
+	left: 20%;
+	top: 50px;
 	height:110px;
 }
 /* Makes the correct response line appear in blue */
 .button {
 	/*position: absolute;*/
-	height:100px;
-	width:300px;
+	height:75px;
+	width:200px;
 	font-size: 25px;
 }
 /* Border surrounding all tasks of a person */
@@ -40,8 +57,8 @@ span {
 }
 /* Individual task */
 .task {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 15px;
+	padding-bottom: 0px;
 	padding-left: 15px;
 	padding-right: 15px;
 	margin-bottom: 10px;
@@ -54,8 +71,8 @@ span {
 }
 /* Name of task*/
 .task_text {
-	font-size: 33px;
-	padding-bottom: 25px;
+	font-size: 30px;
+	padding-bottom: 15px;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -75,4 +92,10 @@ span {
 	display: inline-block;
 	width: 40%;
 	text-align: right;
+}
+/* format a kid's name */
+.name {
+	font-size: 30px;
+	font-weight: 1000;
+	color: black;
 }
