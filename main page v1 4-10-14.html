@@ -35,7 +35,12 @@
 						task_to_add += '<div class="task_reward">$0</div>';
 					}
 					task_to_add += '</div>';
-					task_to_add += '<ul class="list"><li>Mark as Done</li>';
+					if (tasks[i].done){
+						task_to_add += '<ul class="list"><li>Mark as not done</li>';
+					}
+					else{
+						task_to_add += '<ul class="list"><li>Mark as done</li>';
+					}
 					task_to_add += '<li>Edit</li><li>Delete</li></ul>';
 					task_to_add += '</div>';
 					
@@ -103,13 +108,15 @@
 							task[0].parentNode.removeChild(task[0]);
 							d.deleteTask(task[0].id, null);
 						}
-						else if ($(this).html() == 'Mark as Done'){
-						
+						else if ($(this).html() == 'Mark as done'){
+							d.markDone(task[0].id, null)
+							$(this).html('Mark as not done');
 						}
 						else { //Mark as Undone
-						
+							d.markNotDone(task[0].id, null);
+							$(this).html('Mark as done');
 						}
-						task.find('.task_text').html($(this).html());
+						//task.find('.task_text').html($(this).html());
 						
 						
 						task.find('.list').fadeOut(1);
