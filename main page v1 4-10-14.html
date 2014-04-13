@@ -50,6 +50,9 @@
 					else{
 						$('#Optional_col').append(task_to_add);
 					}
+					if (tasks[i].done){
+						$('#' + tasks[i].id).css('background', '#32cd32');
+					}
 				}
 				$('.task').styleddropdown();
 			}
@@ -111,10 +114,12 @@
 						else if ($(this).html() == 'Mark as done'){
 							d.markDone(task[0].id, null)
 							$(this).html('Mark as not done');
+							task.css('background', '#32cd32');
 						}
 						else { //Mark as Undone
 							d.markNotDone(task[0].id, null);
 							$(this).html('Mark as done');
+							task.css('background', '#dddddd');
 						}
 						//task.find('.task_text').html($(this).html());
 						
