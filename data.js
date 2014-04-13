@@ -8,7 +8,11 @@ var Data = function(callback) {
 	$.getScript('http://nanu.mit.edu/pythonApp/privateData.js', function(){
 		nextTaskId = privateData.nextTaskId;
 		kids = privateData.kids;
-		tasks = privateData.tasks;		
+		tasks = privateData.tasks;
+
+		for (var i = 0; i < tasks.length ; i++) {			
+			nextTaskId = Math.max(nextTaskId, tasks[i].id + 1);
+		}
 	
 		if (callback) {
 			callback();
