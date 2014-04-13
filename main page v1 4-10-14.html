@@ -11,13 +11,68 @@
     <link type="text/css" href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
     <link type="text/css" href="main_page_style.css" rel="stylesheet" />
 
-    <script type="text/javascript" src="jquery/js/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
-    <script type="text/javascript" src="dicts.json"></script>
-    <script type="text/javascript" src="translate_game.js"></script>
+	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="external_js/jquery-ui-1.10.4.custom.js"></script>
+	
 	<script type="text/javascript"> 
 	
-	
+		$(document).ready(function() {    
+	   
+			var doneLoading = function() {        
+				//Your code here
+			}
+			
+			//d = new Data(doneLoading);
+			
+			
+			//NOT HERE			
+			$('.task').styleddropdown();
+		});
+
+		(function($){
+			$.fn.styleddropdown = function(){
+				return this.each(function(){
+					var task = $(this)
+					
+					//Show menu when clicking on task
+					task.click(function(event) {
+						task.find('.list').fadeIn(1);
+					
+						//Hide menu when 'escape' is pressed
+						$(document).keyup(function(event) { 
+							if(event.keyCode == 27) {
+							task.find('.list').fadeOut(1);
+							}
+						});
+						
+						/*
+						Trying to make it disappear when the user clicks elsewhere
+						$(document).click(function(e) {
+							if (e.timeStamp != event.timeStamp) {
+								task.find('.list').fadeOut(1);
+							}
+						});
+						*/
+						
+						//Hide menu when mouse exits
+						task.find('.list').hover(function(){ },
+							function(){
+								$(this).fadeOut(1);
+							});
+					});
+					
+					//Click on menu
+					task.find('.list li').click(function(e) {				
+						//Do something with what was clicked
+						task.find('.task_text').html($(this).html());
+						
+						
+						task.find('.list').fadeOut(1);
+						e.stopPropagation();
+					});
+				});
+			};
+		})(jQuery);		
 	</script>
 
   </head>
@@ -79,6 +134,11 @@
 							$10
 						</div>
 					</div>
+					<ul class="list">
+						<li>Mark as Done</li>
+						<li>Edit</li>
+						<li>Delete</li>
+					</ul>
 				</div>
 				<div class="task">
 					
@@ -93,6 +153,11 @@
 							$10
 						</div>
 					</div>
+					<ul class="list">
+						<li>Mark as Done</li>
+						<li>Edit</li>
+						<li>Delete</li>
+					</ul>
 				</div>
 			</td>
 			<td id="north_col" class='task_col'>

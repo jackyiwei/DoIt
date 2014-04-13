@@ -89,6 +89,7 @@ span {
 }
 /* Individual task */
 .task {
+	position:relative;
 	padding-top: 15px;
 	padding-bottom: 0px;
 	padding-left: 15px;
@@ -110,7 +111,6 @@ span {
 }
 /* div containing date and reward*/
 .task_details{
-	
 	font-size: 20px;
 }
 /* describe date*/
@@ -132,3 +132,31 @@ span {
 	color: black;
 }
 
+.list { 
+	text-align:left;
+	display:none;
+	position:absolute; 
+	left:300px; 
+	top:100px;
+	z-index:999;
+	width:150px;
+	margin:0; 
+	padding:10px; 
+	list-style:none;
+	background:#eee; 
+	-moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;
+	-moz-box-shadow:0 0 5px #999; -webkit-box-shadow:0 0 5px #999; box-shadow:0 0 5px #999
+}
+
+.task>ul.list li {
+	padding:10px;
+	border-bottom: solid 1px #ccc;
+}
+
+.task>ul.list li:hover {
+	background:#B0E0E6; 	
+}
+
+.task>ul.list li:last-child {
+	border:none
+}
