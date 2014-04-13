@@ -21,10 +21,8 @@
 	   
 			var doneLoading = function() {        
 				//Your code here
-				console.log(d.getAllTasks());
 				var tasks = d.getAllTasks();
 				for(var i=0; i < tasks.length; i++){
-					console.log("here");
 					var task_to_add = '<div class="task" id="' + tasks[i].id + '">';
 					task_to_add += '<div class="task_text">' + tasks[i].name + '</div>';
 					task_to_add += '<div class="task_details">';
@@ -51,6 +49,8 @@
 				$('.task').styleddropdown();
 			}
 			
+			openMenu = null;
+			
 			d = new Data(doneLoading);
 		});
 
@@ -61,7 +61,12 @@
 					
 					//Show menu when clicking on task
 					task.click(function(event) {
+						if (openMenu && openMenu != task.find('.list')){
+							openMenu.fadeOut(1);
+						}
+						
 						task.find('.list').fadeIn(1);
+						openMenu = task.find('.list');
 					
 						//Hide menu when 'escape' is pressed
 						$(document).keyup(function(event) { 
@@ -89,6 +94,21 @@
 					//Click on menu
 					task.find('.list li').click(function(e) {				
 						//Do something with what was clicked
+						if ($(this).html() == 'Edit'){
+						
+							//CHANGE THE ADDRESS TO BE CREATE TASK PAGE!!!!!!!!!
+							document.location = "http://www.google.com?id=" + task[0].id;
+						}
+						else if ($(this).html() == 'Delete'){
+							task[0].parentNode.removeChild(task[0]);
+							d.deleteTask(task[0].id, null);
+						}
+						else if ($(this).html() == 'Mark as Done'){
+						
+						}
+						else { //Mark as Undone
+						
+						}
 						task.find('.task_text').html($(this).html());
 						
 						
@@ -120,7 +140,9 @@
 	</div>
 	
 	<div class="wrapper">
-		<button class="button" id="Create_Task_Button">Create Task</button> 
+		<form action="http://www.google.com" method="get">
+			<button class="button" type="submit" id="Create_Task_Button">Create Task</button> 
+		</form>
 	</div>
 	
 	<hr></hr>
@@ -130,10 +152,10 @@
 	<table id="Task_Table" cellspacing="40" width="100%">
 		<!--These are the headers of the table columns based on the languages selected in the javascript code-->
 		<tr>
-			<td class="name"><!-- class="lang_from"> -->
+			<td class="name">
 				<h2>Molly</h2>
 			</td>
-			<td class="name"> <!-- class="lang_to"> -->
+			<td class="name">
 				<h2>North</h2>
 			</td>
 			<td class="name">
