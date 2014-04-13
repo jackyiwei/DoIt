@@ -14,6 +14,10 @@
     <script type="text/javascript" src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
     <script type="text/javascript" src="dicts.json"></script>
     <script type="text/javascript" src="translate_game.js"></script>
+	<script type="text/javascript"> 
+	
+	
+	</script>
 
   </head>
   <body>
@@ -24,7 +28,7 @@
 		<button class="button" id="Create_Task_Button">Create Task</button> 
 	</div>
 	<!--Table set up for the actual content of the game -->
-	<table id="Task_Table" align="center">
+	<table id="Task_Table" cellspacing="40" width="100%">
 		<!--These are the headers of the table columns based on the languages selected in the javascript code-->
 		<tr>
 			<td><!-- class="lang_from"> -->
@@ -42,25 +46,83 @@
 		</tr>
 		<!--This is the row displaying everything the user will interact with. (The random word to translate, the input box, and submit button).-->
 		<tr>
-			<td> <!-- class="lang_to"> -->
-				<!-- box for tasks here-->
-				<canvas id="Molly_Tasks" width="400" height="800" style="border:1px solid #000000;">
-				</canvas>
+			<td id="molly_col" class='task_col'> <!-- class="lang_to"> -->
+				<div class="task">
+					
+					<div class="task_text">
+						Task wash the bathroom
+					</div>
+					<div class="task_details">
+						<div class="task_date">
+							Due: 5/25/14
+						</div>
+						<div class="task_reward">
+							$10
+						</div>
+					</div>
+				</div>
+				<div class="task">
+					
+					<div class="task_text">
+						Task wash the bathroom
+					</div>
+					<div class="task_details">
+						<div class="task_date">
+							Due: 5/25/14
+						</div>
+						<div class="task_reward">
+							$10
+						</div>
+					</div>
+				</div>
 			</td>
-			<td>
-				<!-- box for tasks here--> <!--<input type="text" id="input_answer">-->
-				<canvas id="North_Tasks" width="400" height="800" style="border:1px solid #000000;">
-				</canvas>
+			<td id="north_col" class='task_col'>
+				<div class="task">
+					
+					<div class="task_text">
+						Task wash the bathroom
+					</div>
+					<div class="task_details">
+						<div class="task_date">
+							Due: 5/25/14
+						</div>
+						<div class="task_reward">
+							$10
+						</div>
+					</div>
+				</div>
 			</td>
-			<td>
-				<!-- box for tasks here--> <!--<button type="button" id="answer_button">See Answer</button>-->
-				<canvas id="Andrew_Tasks" width="400" height="800" style="border:1px solid #000000;">
-				</canvas>
+			<td id="andrew_col" class='task_col'>
+				<div class="task">
+					
+					<div class="task_text">
+						Task bathroom
+					</div>
+					<div class="task_details">
+						<div class="task_date">
+							Due: 5/25/14
+						</div>
+						<div class="task_reward">
+							$10
+						</div>
+					</div>
+				</div>
 			</td>
-			<td>
-				<!-- box for tasks here--> <!--<button type="button" id="answer_button">See Answer</button>-->
-				<canvas id="Optiona_Tasks" width="400" height="800" style="border:1px solid #000000;">
-				</canvas>
+			<td id="optional_col" class='task_col'>
+				<div class="task">
+					
+					<div class="task_text">
+						Task wash the bathroom
+					</div>
+					<div class="task_details">
+						<div class="task_date">
+							Due: 5/25/14
+						</div>
+						<div class="task_reward">
+							$10
+						</div>
+					</div>
+				</div>
 			</td>
 		</tr>
 	</table>

@@ -7,9 +7,7 @@ html {
 /* Your CSS here */
 /* gap requirement */
 td {
-	padding-bottom:10px;
-	padding-right:40px;
-	padding-top:10px;
+
 	text-align:center;
 }
 /* Makes the language to/language from text appear in black */
@@ -28,11 +26,53 @@ span {
 	width:300px;
 	font-size: 25px;
 }
-/* Makes the incorrect response line appear in red */
-.wrong {
-	color: red;
+/* Border surrounding all tasks of a person */
+.task_col {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	vertical-align: top;
+	border: 2px solid black;
+	width: 25%;
+	max-width: 100px; /* don't know why this works. come back to later?*/
+	height: 800px;
 }
-/* Makes the incorrect user response appear crossed out */
-.wrongAnswer {
-	text-decoration:line-through;
+/* Individual task */
+.task {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 10px;
+	vertical-align: bottom;
+	background: #dddddd;
+	color:black;
+	height:90px;
+	border:2px solid #a1a1a1;
+	border-radius:25px;
+}
+/* Name of task*/
+.task_text {
+	font-size: 33px;
+	padding-bottom: 25px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+/* div containing date and reward*/
+.task_details{
+	
+	font-size: 20px;
+}
+/* describe date*/
+.task_date {
+	display: inline-block;
+	width: 40%;
+	text-align: left;
+}
+/* describe reward*/
+.task_reward {
+	display: inline-block;
+	width: 40%;
+	text-align: right;
 }
