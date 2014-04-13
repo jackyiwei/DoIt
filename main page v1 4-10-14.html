@@ -8,11 +8,12 @@
 	<link href='http://fonts.googleapis.com/css?family=Fredericka the Great' rel='stylesheet' type='text/css'>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Do.It</title>
-    <link type="text/css" href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
     <link type="text/css" href="main_page_style.css" rel="stylesheet" />
 
 	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="external_js/jquery-ui-1.10.4.custom.js"></script>
+	<script type="text/javascript" src="data.js"></script>
+	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 	
 	<script type="text/javascript"> 
 	
@@ -20,9 +21,10 @@
 	   
 			var doneLoading = function() {        
 				//Your code here
+				console.log(d.getAllTasks());
 			}
 			
-			//d = new Data(doneLoading);
+			d = new Data(doneLoading);
 			
 			
 			//NOT HERE			

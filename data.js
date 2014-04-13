@@ -10,12 +10,9 @@ var Data = function(callback) {
 		kids = privateData.kids;
 		tasks = privateData.tasks;		
 	
-		//Loads an external js file later used to serialize data
-		$.getScript("external_js/jquery.json-2.4.js", function(){
-			if (callback) {
-				callback();
-			}
-		});
+		if (callback) {
+			callback();
+		}
 	});
 	
 	//Asynchronously saves all data to disk and calls "callback" when done
