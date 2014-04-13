@@ -40,8 +40,8 @@ var Data = function(callback) {
 	
 	//Returns the index of task with given id in tasks array, or -1 if not found
 	this.getTaskIndex = function(id) {
-		for (var i = 0; i < tasks.length ; i++) {
-			if (tasks[i].id == i) {
+		for (var i = 0; i < tasks.length ; i++) {			
+			if (tasks[i].id == id) {
 				return i;
 			}
 		}
@@ -77,7 +77,7 @@ var Data = function(callback) {
 	//Deletes a task based on its id and saves afterwards. Returns deleted task if successful, otherwise null. Calls "callback" when done saving
 	this.deleteTask = function(id, callback) {
 		index = this.getTaskIndex(id);		
-		var task = (index > -1) ? tasks.splice(id, 1) : null;
+		var task = (index > -1) ? tasks.splice(index, 1) : null;
 		this.save(callback);
 		return task;
 	}
