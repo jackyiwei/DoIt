@@ -86,7 +86,7 @@ var Data = function(callback) {
 	}
 	
 	//Creates a new task and saves afterwards. Returns the created task. Calls "callback" when done saving
-	this.createNewTask = function(name, date, repeat, assigned, reward, reminders, details, callback) {
+	this.createTask = function(name, date, repeat, assigned, reward, reminders, details, callback) {
 		var newTask = { "id":nextTaskId, 
 						"name":name, 
 						"day":date.getDate(), 
@@ -131,7 +131,7 @@ var Data = function(callback) {
 	}
 	
 	//Changes who the task is assigned to given its id and saves afterwards. Returns the task if it was found, otherwise null. Calls "callback" when done saving
-	this.markNotDone = function(id, assigned, callback) {
+	this.changeAssignment = function(id, assigned, callback) {
 		task = this.getTask(id);
 		
 		if (task != null) {
