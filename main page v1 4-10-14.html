@@ -77,10 +77,11 @@
 					var task = $(this)
 					
 					//Show menu when clicking on task
-					task.click(function(event) {
+					task.click(function(e) {
 						if (openMenu && openMenu != task.find('.list')){
 							openMenu.fadeOut(1);
 						}
+						e.stopPropagation();
 						
 						task.find('.list').fadeIn(1);
 						openMenu = task.find('.list');
@@ -92,14 +93,11 @@
 							}
 						});
 						
-						/*
-						Trying to make it disappear when the user clicks elsewhere
-						$(document).click(function(e) {
-							if (e.timeStamp != event.timeStamp) {
-								task.find('.list').fadeOut(1);
-							}
+						
+						//Trying to make it disappear when the user clicks elsewhere
+						$(document).click(function(e) {						
+							task.find('.list').fadeOut(1);
 						});
-						*/
 						
 						//Hide menu when mouse exits
 						task.find('.list').hover(function(){ },
