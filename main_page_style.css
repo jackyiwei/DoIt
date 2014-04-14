@@ -165,7 +165,7 @@ span {
 }
 
 .done {
-	z-index:999;
+	z-index:998;
 	background:#32cd32;
 	color: white;
 	font-size: 24px;
