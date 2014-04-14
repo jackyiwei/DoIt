@@ -16,10 +16,12 @@
 	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 	
 	<script type="text/javascript"> 
-		function dragTask(e)	{
+		//Drag task start
+		function dragTask(e) {
 			e.dataTransfer.setData("Text", e.target.id);
 		}
 		
+		//Drop task to column
 		function dropTask(e) {
 			target = $('#' + e.target.id);
 			if (target.attr('class') == 'task_col') {
@@ -32,6 +34,9 @@
 				assigned = (assigned == 'Optional') ? null : assigned; //Set assigned to null if it was 'Optional'
 				d.changeAssignment(data, assigned, null);
 			}
+			else {
+				//There should be a way to find the column from 'target'... But it doesn't always work
+			}
 			e.preventDefault();
 		}
 		
@@ -39,10 +44,10 @@
 			e.preventDefault();
 		}
 	
-		$(document).ready(function() {    
-	   
+		$(document).ready(function() {
+		
 			var doneLoading = function() {        
-				//Your code here
+				//Load all tasks
 				var tasks = d.getAllTasks();
 				for(var i=0; i < tasks.length; i++){
 					var task_to_add = '<div class="task" draggable="true" ondragstart="dragTask(event)" id="' + tasks[i].id + '">';
@@ -79,12 +84,15 @@
 					}
 					
 					if (tasks[i].done){
+						//green background for done tasks
 						$('#' + tasks[i].id).css('background', '#32cd32');
-						$('#' + tasks[i].id).find('.done').css('display','initial');
 					} else {
+						//hide "Did.It" text for not done tasks
 						$('#' + tasks[i].id).find('.done').css('display','none');
-					}
+					}					
 				}
+				
+				//Set popup menu for tasks
 				$('.task').styleddropdown();
 			}
 			
@@ -93,6 +101,7 @@
 			d = new Data(doneLoading);
 		});
 
+		//Popup menu for tasks
 		(function($){
 			$.fn.styleddropdown = function(){
 				return this.each(function(){
