@@ -143,7 +143,7 @@
 						if ($(this).html() == 'Edit'){
 						
 							//CHANGE THE ADDRESS TO BE CREATE TASK PAGE!!!!!!!!!
-							document.location = "http://www.google.com?id=" + task[0].id;
+							document.location = "index.html?id=" + task[0].id;
 						}
 						else if ($(this).html() == 'Delete'){
 							var toDelete = confirm("Are you sure you want to delete this task?");
@@ -195,7 +195,7 @@
 	</div>
 	
 	<div class="wrapper">
-		<form action="http://www.google.com" method="get">
+		<form action="index.html" method="get">
 			<button class="button" type="submit" id="Create_Task_Button">Create Task</button> 
 		</form>
 	</div>
