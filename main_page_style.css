@@ -115,17 +115,19 @@ span {
 	padding-left: 0px;
 	padding-right: 0px;
 	font-size: 20px;
+	overflow: hidden;
+	white-space: nowrap;	
 }
 /* describe date*/
 .task_date {
 	display: inline-block;
-	width: 48%;
+	width: 80%;
 	text-align: left;
 }
 /* describe reward*/
 .task_reward {
 	display: inline-block;
-	width: 48%;
+	width: 18%;
 	text-align: right;
 }
 /* format a kid's name */
