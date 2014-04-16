@@ -52,3 +52,7 @@ table{
 	float: right;
 	display: inline-block;
 }
+
+.ui-autocomplete.ui-widget {
+  font-size: 15px;
+}

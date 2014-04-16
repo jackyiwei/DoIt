@@ -142,4 +142,8 @@ var Data = function(callback) {
 		this.save(callback);		
 		return task;
 	}
+	
+	this.getKids = function() {
+		return kids;
+	}
 }

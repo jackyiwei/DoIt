@@ -115,6 +115,10 @@
 					document.getElementById('details').value = task.details;
 				}
 			}
+
+			$("#assigned").autocomplete({
+				source: d.getKids()
+			});
 			
 			bindDeleteReminders();
 			
@@ -178,7 +182,7 @@
         </tr>
 		
 		<tr>
-            <td>Recurring: </td>
+            <td>Repeat: </td>
             <td class="td" >TODO</td>
         </tr>
 
