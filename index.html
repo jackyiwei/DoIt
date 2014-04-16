@@ -78,6 +78,17 @@
 		});
 	}
 
+    function checkAddress(checkbox)
+    {
+        if (checkbox.checked)
+        {
+            document.getElementById('checkText').innerHTML = 'Repeat for every Tuesday';
+        } else {
+            document.getElementById('checkText').innerHTML = '';
+
+        }
+    }
+
 	$(document).ready(function() {
 		var doneLoading = function() {
 			if ($.getUrlVar('id')) {
@@ -110,7 +121,7 @@
 							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<img src="delete.jpeg" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
+							cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
 						}
 					}
 
@@ -151,7 +162,7 @@
 				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				cell3.innerHTML = '<img src="delete.jpeg" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
+				cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
 
 				//Bind the click operation for delete reminder icons
 				bindDeleteReminders();
@@ -186,7 +197,7 @@
 
 		<tr>
             <td>Repeat: </td>
-            <td class="td" >TODO</td>
+            <td class="td" ><input type="checkbox" id="checkAddress" onclick="checkAddress(this)" /><font size = 3 id = "checkText">Check for repeat</font></td>
         </tr>
 
         <tr>
@@ -201,7 +212,7 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<td><img src="delete.jpeg" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">
+			<td><img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">
         </tr>
 		<tr>
 			<td></td>
