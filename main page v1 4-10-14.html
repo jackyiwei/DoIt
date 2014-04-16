@@ -14,21 +14,21 @@
 	<script type="text/javascript" src="external_js/jquery-ui-1.10.4.custom.js"></script>
 	<script type="text/javascript" src="data.js"></script>
 	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
-	
-	<script type="text/javascript"> 
+
+	<script type="text/javascript">
 		//Drag task start
 		function dragTask(e) {
 			e.dataTransfer.setData("Text", e.target.id);
 		}
-		
+
 		//Drop task to column
 		function dropTask(e) {
 			target = $('#' + e.target.id);
 			if (target.attr('class') == 'task_col') {
 				//e.preventDefault();
-				
+
 				var data = e.dataTransfer.getData("Text");
-			
+
 				target.append($('#' + data));
 				var assigned = e.target.id.substring(0, e.target.id.length - 4);
 				assigned = (assigned == 'Optional') ? null : assigned; //Set assigned to null if it was 'Optional'
@@ -39,14 +39,14 @@
 			}
 			e.preventDefault();
 		}
-		
+
 		function allowDrop(e) {
 			e.preventDefault();
 		}
-	
+
 		$(document).ready(function() {
-		
-			var doneLoading = function() {        
+
+			var doneLoading = function() {
 				//Load all tasks
 				var tasks = d.getAllTasks();
 				for(var i=0; i < tasks.length; i++){
@@ -62,11 +62,11 @@
 						task_to_add += '<div class="task_reward">$0</div>';
 					}
 					task_to_add += '</div>';
-					
-					
+
+
 					task_to_add += '<div class="done">Did.It</div>';
-					
-					
+
+
 					if (tasks[i].done){
 						task_to_add += '<ul class="list"><li>Mark as not done</li>';
 					}
@@ -74,30 +74,30 @@
 						task_to_add += '<ul class="list"><li>Mark as done</li>';
 					}
 					task_to_add += '<li>Edit</li><li>Delete</li></ul>';
-					task_to_add += '</div>';										
-					
+					task_to_add += '</div>';
+
 					if (tasks[i].assigned){
 						$('#' + tasks[i].assigned + '_col').append(task_to_add);
 					}
 					else{
 						$('#Optional_col').append(task_to_add);
 					}
-					
+
 					if (tasks[i].done){
 						//green background for done tasks
 						$('#' + tasks[i].id).css('background', '#32cd32');
 					} else {
 						//hide "Did.It" text for not done tasks
 						$('#' + tasks[i].id).find('.done').css('display','none');
-					}					
+					}
 				}
-				
+
 				//Set popup menu for tasks
 				$('.task').styleddropdown();
 			}
-			
+
 			openMenu = null;
-			
+
 			d = new Data(doneLoading);
 		});
 
@@ -106,42 +106,42 @@
 			$.fn.styleddropdown = function(){
 				return this.each(function(){
 					var task = $(this)
-					
+
 					//Show menu when clicking on task
 					task.click(function(e) {
 						if (openMenu && openMenu != task.find('.list')){
 							openMenu.fadeOut(1);
 						}
 						e.stopPropagation();
-						
+
 						task.find('.list').fadeIn(1);
 						openMenu = task.find('.list');
-					
+
 						//Hide menu when 'escape' is pressed
-						$(document).keyup(function(event) { 
+						$(document).keyup(function(event) {
 							if(event.keyCode == 27) {
 							task.find('.list').fadeOut(1);
 							}
 						});
-						
-						
+
+
 						//Trying to make it disappear when the user clicks elsewhere
-						$(document).click(function(e) {						
+						$(document).click(function(e) {
 							task.find('.list').fadeOut(1);
 						});
-						
+
 						//Hide menu when mouse exits
 						task.find('.list').hover(function(){ },
 							function(){
 								$(this).fadeOut(1);
 							});
 					});
-					
+
 					//Click on menu
-					task.find('.list li').click(function(e) {				
+					task.find('.list li').click(function(e) {
 						//Do something with what was clicked
 						if ($(this).html() == 'Edit'){
-						
+
 							//CHANGE THE ADDRESS TO BE CREATE TASK PAGE!!!!!!!!!
 							document.location = "index.html?id=" + task[0].id;
 						}
@@ -165,18 +165,19 @@
 							task.find('.done').css('display','none');
 						}
 						//task.find('.task_text').html($(this).html());
-						
-						
+
+
 						task.find('.list').fadeOut(1);
 						e.stopPropagation();
 					});
 				});
 			};
-		})(jQuery);		
+		})(jQuery);
 	</script>
 
   </head>
   <body>
+<<<<<<< HEAD
 
 	<table class="topTable">
 	<tr>
@@ -206,8 +207,7 @@
 	</table>
 
 	<hr></hr>
-	
-	
+
 	<!--Table set up for the actual content of the game -->
 	<table id="Task_Table" cellspacing="40" width="100%">
 		<!--These are the headers of the table columns based on the languages selected in the javascript code-->
