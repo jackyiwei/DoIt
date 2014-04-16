@@ -23,61 +23,155 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="bootstrap-3.1.1-dist/css/bootstrap.min.css" />
 
+	<script type="text/javascript" src="data.js"></script>
 
 <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+		minDate: 0
+	});
   });
+  $.extend({
+	getUrlVars : function() {
+		var vars = [], hash;
+		var hashes = window.location.href.slice(
+				window.location.href.indexOf('?') + 1).split('&');
+		for ( var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split('=');
+			vars.push(hash[0]);
+			vars[hash[0]] = hash[1];
+		}
+		return vars;
+	},
+	getUrlVar : function(name) {
+		return $.getUrlVars()[name];
+	}
+});
+  
+	$(document).ready(function() {
+		var doneLoading = function() { 				
+			if ($.getUrlVar('id')) {
+				task = d.getTask($.getUrlVar('id'));
+				if (task) {
+					//edit task
+					$('#title').html('Edit Task');
+					
+					document.getElementById('taskTitle').value = task.name;
+					
+					$('#datepicker').datepicker("setDate", new Date(task.year, task.month, task.day));
+					
+					document.getElementById('assigned').value = task.assigned;
+					document.getElementById('reward').value = task.reward;
+					
+					
+					if (task.reminders && task.reminders.length > 0) {
+						document.getElementById('reminder0').value = task.reminders[0];
+						
+						var table = document.getElementById("table");
+						for (var i = 1; i < task.reminders.length; i++) {							
+							var row = table.insertRow(5 + i);
+							
+							row.id = 'reminderRow' + i;
+							
+							var cell1 = row.insertCell(0);
+							var cell2 = row.insertCell(1);
+							var cell3 = row.insertCell(2);
+							
+							cell2.innerHTML = '<input type="text" name="reminder0" id="reminder0" value="' + task.reminders[i] + '" >';
+							cell3.innerHTML = 'Delete task (icon)';
+						}
+					}
+					
+					
+					//   <td><input type="text" name="Assigned" id="Assigned"></td>
+					//   <td><input type="text" name="Rewards" id="Rewards"></td>
+					//   <td><input type="text" name="Reminders" id="Reminders"></td>
+					//  <textarea rows="4" cols="50" placeholder="Enter details here..." id="Details"></textarea>
+					
+					document.getElementById('details').value = task.details;
+				}
+			}
+			
+			$("#btnSave").click(function() {
+				document.location = 'main page v1 4-10-14.html';
+			});
+			
+			$("#btnBack").click(function() {
+				document.location = 'main page v1 4-10-14.html';
+			});
+			
+			$("#btnNewReminder").click(function() {
+				var table = document.getElementById("table");
+				var i = table.rows.length - 6;
+				
+				var row = table.insertRow(5 + i);
+				
+				row.id = 'reminderRow' + i;
+				
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				
+				cell2.innerHTML = '<input type="text" name="reminder0" id="reminder0">';
+				cell3.innerHTML = 'Delete task (icon)';				
+			});
+		}
+		
+		d = new Data(doneLoading);			
+	});
 </script>
-
-
-
-
-
 
 
 </head>
 
 <body>
-    <h1> Task Creation </h1>
-    <button type="button" class=button">
+    <h1 id='title'>Create Task</h1>
+    <button type="button" class=button" id='btnBack'>
       Back
     </button>
 
-    <button type="button" class=button">
+    <button type="button" class=button" id='btnSave'>
       Save
     </button> <br><br>
 
-    <table>
+    <table id='table'>
         <tr>
             <td>Task: </td>
-            <td><input type="text" name="TaskTitle"></td>
+            <td><input type="text" name="taskTitle" id="taskTitle"></td>
         </tr>
 
         <tr>
             <td>Deadline: </td>
             <td><input type="text" id="datepicker"></td>
         </tr>
+		
+		<tr>
+            <td>Recurring: </td>
+            <td>TODO</td>
+        </tr>
 
         <tr>
             <td>Assigned To: </td>
-            <td><input type="text" name="Assigned"></td>
+            <td><input type="text" name="assigned" id="assigned"></td>
         </tr>
 
         <tr>
-            <td>Rewards:</td>
-            <td><input type="text" name="Rewards"></td>
+            <td>Reward ($):</td>
+            <td><input type="text" name="reward" id="reward"></td>
         </tr>
-
-        <tr>
+        <tr id="reminderRow0">
             <td>Reminders:</td>
-            <td><input type="text" name="Reminders"></td>
+            <td><input type="text" name="reminder0" id="reminder0"></td>
         </tr>
+		<tr>
+			<td></td>
+			<td><button type="button" class=button" id='btnNewReminder'>Add New Reminder</button></td>
+		</tr>
     </table>
 
 
     Details: <br>
-    <textarea rows="4" cols="50" placeholder="Enter details here..."></textarea>
+    <textarea rows="4" cols="50" placeholder="Enter details here..." id="details"></textarea>
 
 
 
