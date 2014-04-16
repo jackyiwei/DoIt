@@ -50,42 +50,40 @@
 
 	function bindDeleteReminders() {
 		//Happens when a user deletes a reminder
-		$('.deleteReminder').click(function(e) {
-			var table = document.getElementById("table");
+		$('.deleteReminder').click(deleteButtonPressed);
+	}
+	
+	function deleteButtonPressed(e) {
+		var table = document.getElementById("table");					
+		if (table.rows.length ==  7) {
+			//Deleted only reminder
+			document.getElementById('reminder0').value = '';
+		}
+		else {
+			//There's at least two reminder rows (including the top-most one)
+			var element = e.currentTarget.parentElement.parentElement;
+			element.parentNode.removeChild(element);
 
-			if (table.rows.length > 7) {
-				//There's at least one other reminder
-				var element = e.currentTarget.parentElement.parentElement;
-				element.parentNode.removeChild(element);
+			//changes id of rows and their input boxes to be what we expect them to be post delete
+			var rows = table.rows;
+			for (var i = 5; i < rows.length - 1; i++) {
+				var rowObj = $('#' + rows[i].id);
+				rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
+				rows[i].id = 'reminderRow' + (i - 5);
 
-				//changes id of rows and their input boxes to be what we expect them to be post delete
-				var rows = table.rows;
-				for (var i = 5; i < rows.length - 1; i++) {
-					var rowObj = $('#' + rows[i].id);
-					rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
-					rows[i].id = 'reminderRow' + (i - 5);
-
-					//Makes sure the first reminder row has text
-					if (i == 5) {
-						rowObj.find('.firstCol').html('Reminders:');
-					}
+				//Makes sure the first reminder row has text
+				if (i == 5) {
+					rowObj.find('.firstCol').html('Reminders:');
 				}
 			}
-			else {
-				//Deleted only reminder
-				document.getElementById('reminder0').value = '';
-			}
-		});
-	}
+		}
+	}	
 
-    function checkAddress(checkbox)
-    {
-        if (checkbox.checked)
-        {
-            document.getElementById('checkText').innerHTML = 'Repeat for every Tuesday';
+    function checkAddress(checkbox) {
+        if (checkbox.checked) {
+            document.getElementById('checkText').innerHTML = 'daily';
         } else {
             document.getElementById('checkText').innerHTML = '';
-
         }
     }
 
@@ -121,7 +119,7 @@
 							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
+							cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
 						}
 					}
 
@@ -162,10 +160,13 @@
 				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
+				cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
+				
+				
 
-				//Bind the click operation for delete reminder icons
-				bindDeleteReminders();
+				//Bind the click operation for delete reminder icons				
+				$('#btnDelete' + i).click(deleteButtonPressed);
+				//bindDeleteReminders();
 			});
 		}
 
@@ -197,7 +198,10 @@
 
 		<tr>
             <td>Repeat: </td>
-            <td class="td" ><input type="checkbox" id="checkAddress" onclick="checkAddress(this)" /><font size = 3 id = "checkText">Check for repeat</font></td>
+            <td class="repeat_td" >
+				<input type="checkbox" id="checkAddress" onclick="checkAddress(this)" checked="checked" autocomplete="off" />
+				<p size=3 id= "checkText" style="display:inline;font-size:16px">daily</p>
+			</td>
         </tr>
 
         <tr>
@@ -212,7 +216,7 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<td><img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">
+			<td><img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete0">
         </tr>
 		<tr>
 			<td></td>
