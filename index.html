@@ -51,16 +51,28 @@
 	function bindDeleteReminders() {	
 		$('.deleteReminder').click(function(e) {
 			var table = document.getElementById("table");
-		
-			var element = e.currentTarget.parentElement.parentElement;
-			element.parentNode.removeChild(element);
-			
-			var rows = table.rows;
-			for (var i = 5; i < rows.length - 1; i++) {
-				var rowObj = $('#' + rows[i].id);
-				rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
-				rows[i].id = 'reminderRow' + (i - 5);
-			}				
+					
+			console.log(table.rows.length);
+			if (table.rows.length > 7) {
+				//There's at least one other reminder
+				var element = e.currentTarget.parentElement.parentElement;
+				element.parentNode.removeChild(element);
+				
+				var rows = table.rows;
+				for (var i = 5; i < rows.length - 1; i++) {					
+					var rowObj = $('#' + rows[i].id);
+					rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
+					rows[i].id = 'reminderRow' + (i - 5);
+					
+					if (i == 5) {
+						rowObj.find('.firstCol').html('Reminders:');
+					}
+				}
+			}	
+			else {
+				//Deleted only reminder
+				document.getElementById('reminder0').value = '';
+			}
 		});	
 	}
   
@@ -93,9 +105,10 @@
 							var cell2 = row.insertCell(1);
 							var cell3 = row.insertCell(2);
 							
+							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<img src="delete.png" alt="Delete Task" height="16px" width="16px" class="deleteReminder">';
+							cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';
 						}
 					}
 					
@@ -125,9 +138,10 @@
 				var cell2 = row.insertCell(1);
 				var cell3 = row.insertCell(2);
 				
+				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				cell3.innerHTML = '<img src="delete.png" alt="Delete Task" height="16px" width="16px" class="deleteReminder">';	
+				cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';	
 
 				bindDeleteReminders();				
 			});
@@ -178,8 +192,9 @@
             <td><input type="text" name="reward" id="reward"></td>
         </tr>
         <tr id="reminderRow0">
-            <td>Reminders:</td>
+            <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
+			<td><img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">
         </tr>
 		<tr>
 			<td></td>
