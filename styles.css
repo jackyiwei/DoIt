@@ -1,8 +1,37 @@
+html{
+	background-color: #eee;
+	font-family: "Trebuchet MS";
+	color: black;
+}
 body{
    padding-left: 30px;
+   font-size: 20px;
 }
 
 td{
-padding-right:15px;
+	padding-right: 15px;
+	padding-bottom: 5px;
+}
 
+hr{
+	position: absolute;
+	left: 0px;
+	width: 100%;
+}
+
+table{
+	margin-top: 20px;
+}
+
+.back_button{
+	height: 30px;
+	width: 90px;
+	margin-right: 15px;
+	margin-bottom: 10px;
+}
+
+.save_button{
+	height: 30px;
+	width: 90px;
+	margin-bottom: 10px;
 }
