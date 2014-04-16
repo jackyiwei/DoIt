@@ -53,7 +53,7 @@
 					var task_to_add = '<div class="task" draggable="true" ondragstart="dragTask(event)" id="' + tasks[i].id + '">';
 					task_to_add += '<div class="task_text">' + tasks[i].name + '</div>';
 					task_to_add += '<div class="task_details">';
-					task_to_add += '<div class="task_date">Due: ' + tasks[i].month + '/';
+					task_to_add += '<div class="task_date">Due: ' + (tasks[i].month + 1)+ '/';
 					task_to_add += tasks[i].day + '/' + tasks[i].year + '</div>';
 					if (tasks[i].reward){
 						task_to_add += '<div class="task_reward">$' + tasks[i].reward + '</div>';
