@@ -35,3 +35,20 @@ table{
 	width: 90px;
 	margin-bottom: 10px;
 }
+
+.deleteReminder{
+	cursor: pointer;
+}
+
+.reminder{
+	width: 3.5em;
+}
+
+.reminder_td{
+	font-size: 16px;
+}
+
+.daysBefore{
+	float: right;
+	display: inline-block;
+}
