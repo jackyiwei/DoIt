@@ -20,12 +20,30 @@ span {
 	color: black;
 }
 
+.topTable{
+	width: 100%;
+}
+
+/* Makes button position happen */
+.createTask_col {
+	text-align: right;
+	width: 55%;
+}
+
+/* Makes the correct response line appear in blue */
+.button {
+	height:75px;
+	width:200px;
+	font-size: 25px;
+	background: #b0e0e6;	
+}
+
 .logo {
 	font-size: 50px;
 	font-family: 'Fredericka the Great';
-	text-align: right;
-	padding-right:50px;
+	padding-right:30px;
 	padding-top: 10px;
+	text-align: right;
 }
 
 .calendar {
@@ -56,23 +74,6 @@ span {
 	font-size: 20px;
 	text-align: center;
 	width: 210px;
-}
-
-/* Makes button position happen */
-.wrapper {
-	position: absolute;
-	left: 45%; /*50px*/
-	top: 50px;
-	height:110px;
-	padding-bottom: 10px;
-}
-/* Makes the correct response line appear in blue */
-.button {
-	/*position: absolute;*/
-	height:75px;
-	width:200px;
-	font-size: 25px;
-	background: #b0e0e6;
 }
 
 /* Border surrounding all tasks of a person */
