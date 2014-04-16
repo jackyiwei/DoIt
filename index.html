@@ -48,22 +48,24 @@
 		}
 	});
 	
-	function bindDeleteReminders() {	
+	function bindDeleteReminders() {
+		//Happens when a user deletes a reminder
 		$('.deleteReminder').click(function(e) {
 			var table = document.getElementById("table");
 					
-			console.log(table.rows.length);
 			if (table.rows.length > 7) {
 				//There's at least one other reminder
 				var element = e.currentTarget.parentElement.parentElement;
 				element.parentNode.removeChild(element);
 				
+				//changes id of rows and their input boxes to be what we expect them to be post delete
 				var rows = table.rows;
 				for (var i = 5; i < rows.length - 1; i++) {					
 					var rowObj = $('#' + rows[i].id);
 					rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
 					rows[i].id = 'reminderRow' + (i - 5);
 					
+					//Makes sure the first reminder row has text
 					if (i == 5) {
 						rowObj.find('.firstCol').html('Reminders:');
 					}
@@ -90,8 +92,8 @@
 					
 					document.getElementById('assigned').value = task.assigned;
 					document.getElementById('reward').value = task.reward;
-					
-					
+										
+					//Makes page show current reminders set for task
 					if (task.reminders && task.reminders.length > 0) {
 						document.getElementById('reminder0').value = task.reminders[0];
 						
@@ -120,16 +122,20 @@
 				source: d.getKids()
 			});
 			
+			//Bind the click operation for delete reminder icons
 			bindDeleteReminders();
-			
+						
+			//Creates/Saves task. Should display dialog box warning user about the editing of repeating tasks.
 			$("#btnSave").click(function() {
 				document.location = 'main page v1 4-10-14.html';
 			});
-			
+						
+			//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)
 			$("#btnBack").click(function() {
 				document.location = 'main page v1 4-10-14.html';
 			});		
 			
+			//Add new reminder button clicked
 			$("#btnNewReminder").click(function() {
 				var table = document.getElementById("table");
 				var i = table.rows.length - 6;
@@ -147,6 +153,7 @@
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
 				cell3.innerHTML = '<img src="delete.png" alt="Delete Reminder" height="16px" width="16px" class="deleteReminder">';	
 
+				//Bind the click operation for delete reminder icons
 				bindDeleteReminders();				
 			});
 		}
@@ -160,13 +167,9 @@
 
 <body>
     <h1 id='title'>Create Task</h1>
-    <button type="button" class="back_button" id='btnBack'>
-      Back
-    </button>
+    <button type="button" class="back_button" id='btnBack'>Back</button>
 
-    <button type="button" class="save_button" id='btnSave'>
-      Save
-    </button> 
+    <button type="button" class="save_button" id='btnSave'>Save</button> 
 
 	<hr></hr>
 	
@@ -206,13 +209,8 @@
 		</tr>
     </table>
 
-
     Details: <br>
     <textarea rows="4" cols="50" placeholder="Enter details here..." id="details"></textarea>
-
-
-
-
 
 </body>
 
