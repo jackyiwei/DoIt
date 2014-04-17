@@ -16,6 +16,7 @@
 
     <script type="text/javascript" src="jquery-ui-1.10.4 3.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
 
+	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 
     <link rel="stylesheet" type ="text/css" href="jquery-ui-1.10.4 3.custom/css/redmond/jquery-ui-1.10.4.custom.min.css">
 
@@ -136,7 +137,15 @@
 
 			//Creates/Saves task. Should display dialog box warning user about the editing of repeating tasks.
 			$("#btnSave").click(function() {
-				document.location = 'main%20page%20v1%204-10-14.html';
+				var callback = function() {document.location = 'main%20page%20v1%204-10-14.html';}
+			
+				if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
+					task = d.getTask($.getUrlVar('id'));
+					d.updateTask(task.id, "Edited Task", new Date(task.year, task.month, task.day), task.repeat, task.assigned, task.reward, task.reminders, task.details, callback);
+				}
+				else {
+					d.createTask("New Task", new Date(), null, null, null, [0,1,2], "no details for this task", callback);					
+				}
 			});
 
 			//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)

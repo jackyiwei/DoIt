@@ -23,12 +23,14 @@ var Data = function(callback) {
 	this.save = function(callback) {	
 		var privateData = {nextTaskId: nextTaskId, kids: kids, tasks: tasks}; 
 		var encoded = 'var privateData = ' + $.toJSON(privateData);
-				
-		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=' + encoded, function(json) {
+
+		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=' + encoded)
+		
+		.always(function() {
 			if (callback) {
 				callback();
 			}
-		});
+		});			
 	}
 
 	//Returns nextTaskId
@@ -101,7 +103,7 @@ var Data = function(callback) {
 						"done":false};
 		
 		nextTaskId++;
-		tasks.append(newTask);
+		tasks.push(newTask);
 		
 		this.save(callback);		
 		return newTask;
