@@ -84,7 +84,7 @@ var Data = function(callback) {
 		index = this.getTaskIndex(id);		
 		var task = (index > -1) ? tasks.splice(index, 1) : null;
 		
-		$.getJSON('http://nanu.mit.edu/pythonApp/testing.py?data=delete' + id)
+		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=delete' + id)
 		
 		.always(function() {
 			if (callback) {
