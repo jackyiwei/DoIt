@@ -20,9 +20,8 @@ var Data = function(callback) {
 	});
 	
 	//Asynchronously saves all data to disk and calls "callback" when done
-	this.save = function(callback) {	
-		var privateData = {nextTaskId: nextTaskId, kids: kids, tasks: tasks}; 
-		var encoded = 'var privateData = ' + $.toJSON(privateData);
+	this.saveTask = function(task, callback) {	
+		var encoded = $.toJSON(task);
 
 		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=' + encoded)
 		
@@ -76,7 +75,7 @@ var Data = function(callback) {
 			task.done = false
 		}
 		
-		this.save(callback);		
+		this.saveTask(task, callback);		
 		return task;
 	}
 	
@@ -84,7 +83,15 @@ var Data = function(callback) {
 	this.deleteTask = function(id, callback) {
 		index = this.getTaskIndex(id);		
 		var task = (index > -1) ? tasks.splice(index, 1) : null;
-		this.save(callback);
+		
+		$.getJSON('http://nanu.mit.edu/pythonApp/testing.py?data=delete' + id)
+		
+		.always(function() {
+			if (callback) {
+				callback();
+			}
+		});	
+		
 		return task;
 	}
 	
@@ -105,7 +112,7 @@ var Data = function(callback) {
 		nextTaskId++;
 		tasks.push(newTask);
 		
-		this.save(callback);		
+		this.saveTask(newTask, callback);		
 		return newTask;
 	}
 	
@@ -115,9 +122,9 @@ var Data = function(callback) {
 		
 		if (task != null) {
 			task.done = true;
+			this.saveTask(task, callback);
 		}
-		
-		this.save(callback);		
+					
 		return task;
 	}
 	
@@ -127,9 +134,9 @@ var Data = function(callback) {
 		
 		if (task != null) {
 			task.done = false;
+			this.saveTask(task, callback);
 		}
-		
-		this.save(callback);		
+				
 		return task;
 	}
 	
@@ -139,9 +146,9 @@ var Data = function(callback) {
 		
 		if (task != null) {
 			task.assigned = assigned;
+			this.saveTask(task, callback);
 		}
-		
-		this.save(callback);		
+					
 		return task;
 	}
 	
