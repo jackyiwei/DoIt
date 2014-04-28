@@ -132,8 +132,8 @@
 				minLength: 0,
 				delay: 0,
 				source: d.getKids()
-			}).on("focus", function () {
-				$(this).autocomplete("search", "");
+			}).on("focus", function () {				
+				$(this).autocomplete("search", document.getElementById("assigned").value);
 			});
 			
 			//Bind the click operation for delete reminder icons
