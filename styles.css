@@ -58,5 +58,15 @@ button{
 }
 
 .ui-autocomplete.ui-widget {
-  font-size: 15px;
+	font-size: 15px;
+}
+
+.fa.fa-times {
+	font-size: 0.8em;
+}
+
+.fa.fa-times:hover {
+	color:red;
+	font-size: 1em;
+	cursor: pointer;
 }

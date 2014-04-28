@@ -7,7 +7,10 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>Task Creation</title>
 
-    <!-- Load style sheets -->
+	<!-- Load Font Awesome -->	
+	<link rel="stylesheet" href="font-awesome-4.0.3/css/font-awesome.min.css">
+	
+    <!-- Load style sheets -->	
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
     <!-- Load any supplemental Javascript libraries here -->
@@ -51,10 +54,13 @@
 
 	function bindDeleteReminders() {
 		//Happens when a user deletes a reminder
-		$('.deleteReminder').click(deleteButtonPressed);
+		$('.fa.fa-times').click(deleteButtonPressed);
+		$('.fa.fa-times').tooltip();
 	}
 	
 	function deleteButtonPressed(e) {
+		$('.fa.fa-times').tooltip("close");
+	
 		var table = document.getElementById("table");					
 		if (table.rows.length ==  7) {
 			//Deleted only reminder
@@ -63,6 +69,7 @@
 		else {
 			//There's at least two reminder rows (including the top-most one)
 			var element = e.currentTarget.parentElement.parentElement;
+			
 			element.parentNode.removeChild(element);
 
 			//changes id of rows and their input boxes to be what we expect them to be post delete
@@ -120,7 +127,8 @@
 							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
+							//cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
+							cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
 						}
 					}
 
@@ -173,13 +181,13 @@
 				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
-				
+				//cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
+				cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
 				
 
 				//Bind the click operation for delete reminder icons				
 				$('#btnDelete' + i).click(deleteButtonPressed);
-				//bindDeleteReminders();
+				$('#btnDelete' + i).tooltip();
 			});
 		}
 
@@ -229,7 +237,8 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<td><img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete0">
+			<!-- <td><img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete0"></td> -->
+			<td><i class="fa fa-times" title="Delete reminder" id="btnDelete0"></i></td>
         </tr>
 		<tr>
 			<td></td>
