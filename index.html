@@ -335,18 +335,23 @@
 	  <p class="validateTips">All form fields are required.</p>
 	 
 	  <form>
-	  <fieldset>
-		<label for="name"></label>
+		<label for="name">Repeat: </label>
 		<select id="dropdown_type">
 			<option value="daily">Daily</option>
 			<option value="weekly">Weekly</option>
 		</select>
-		<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
-		<label for="email">Email</label>
-		<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all">
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all">
-	  </fieldset>
+		<br>
+		<label for="email">Repeat every: </label>
+		<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all">
+		<br>
+		<label for="days_of_week">Repeat on: </label>
+		<input type="checkbox" name="Sunday" id="Sunday"> S
+		<input type="checkbox" name="Sunday" id="Sunday"> M
+		<input type="checkbox" name="Sunday" id="Sunday"> T
+		<input type="checkbox" name="Sunday" id="Sunday"> W
+		<input type="checkbox" name="Sunday" id="Sunday"> T
+		<input type="checkbox" name="Sunday" id="Sunday"> F
+		<input type="checkbox" name="Sunday" id="Sunday"> S
 	  </form>
 	</div>
 
