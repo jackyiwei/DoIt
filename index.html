@@ -234,11 +234,11 @@
 		
 		$( "#dialog-form" ).dialog({
 		  autoOpen: false,
-		  height: 300,
-		  width: 350,
+		  height: 700,
+		  width: 600,
 		  modal: true,
 		  buttons: {
-			"Create an account": function() {
+			"Done": function() {
 			  var bValid = true;
 			  allFields.removeClass( "ui-state-error" );
 	 
@@ -251,7 +251,7 @@
 			  bValid = bValid && checkRegexp( email, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
 			  bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
 	 
-			  if ( bValid ) {
+			  if (true ){// bValid ) {
 				$( "#users tbody" ).append( "<tr>" +
 				  "<td>" + name.val() + "</td>" +
 				  "<td>" + email.val() + "</td>" +
@@ -331,27 +331,60 @@
     Details: <br>
     <textarea rows="4" cols="50" placeholder="Enter details here..." id="details"></textarea>
 	
-	<div id="dialog-form" title="Create new user">
+	<div id="dialog-form" title="Repeat Details">
 	  <p class="validateTips">All form fields are required.</p>
 	 
 	  <form>
-		<label for="name">Repeat: </label>
-		<select id="dropdown_type">
-			<option value="daily">Daily</option>
-			<option value="weekly">Weekly</option>
-		</select>
-		<br>
-		<label for="email">Repeat every: </label>
-		<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all">
-		<br>
-		<label for="days_of_week">Repeat on: </label>
-		<input type="checkbox" name="Sunday" id="Sunday"> S
-		<input type="checkbox" name="Sunday" id="Sunday"> M
-		<input type="checkbox" name="Sunday" id="Sunday"> T
-		<input type="checkbox" name="Sunday" id="Sunday"> W
-		<input type="checkbox" name="Sunday" id="Sunday"> T
-		<input type="checkbox" name="Sunday" id="Sunday"> F
-		<input type="checkbox" name="Sunday" id="Sunday"> S
+		<table id="form_table">
+			<tr>
+				<td>
+					<label for="repeat_day_week">Repeat: </label>
+				</td>
+				<td>
+					<select id="dropdown_type">
+						<option value="daily">Daily</option>
+						<option value="weekly">Weekly</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="Number_of">Repeat every: </label>
+				</td>
+				<td>
+					<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all"> weeks
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="days_of_week">Repeat on: </label>
+				</td>
+				<td>
+					<input type="checkbox" name="Sunday" id="Sunday"> S
+					<input type="checkbox" name="Sunday" id="Sunday"> M
+					<input type="checkbox" name="Sunday" id="Sunday"> T
+					<input type="checkbox" name="Sunday" id="Sunday"> W
+					<input type="checkbox" name="Sunday" id="Sunday"> T
+					<input type="checkbox" name="Sunday" id="Sunday"> F
+					<input type="checkbox" name="Sunday" id="Sunday"> S
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="end_date">Ends: </label>
+				</td>
+				<td>
+					<input type="radio" name="end_date" value="never">Never</input>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="radio" name="end_date" value="date">Ends on: </input>
+					<input type="text" name="end_date" id="end_date" value="" class="text ui-widget-content ui-corner-all">
+				</td>
+			</tr>
+		</table>
 	  </form>
 	</div>
 
