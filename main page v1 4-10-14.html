@@ -12,6 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Do.It</title>
     <link type="text/css" href="main_page_style.css" rel="stylesheet" />
+	<link type="text/css" href="main_page_buttons.css" rel="stylesheet" />
 
 	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="external_js/jquery-ui-1.10.4.custom.js"></script>
@@ -284,30 +285,24 @@
   </head>
   <body>
   
-	<table class="topTable">
-	<tr>
-		<td class="createTask_col">
-			<button class="button" id="Create_Task_Button">Create Task</button> 
-		</td>
-		<td>
-			<div class="logo">Do.It</div>
-			<div class="calendar">
-				<button class="calendar_button_today" id="Calendar_Button_Today">
-					Today
-				</button>
-				<button class="calendar_button" id="Calendar_Button_Left">
-					<
-				</button>
-				<button class="calendar_button" id="Calendar_Button_Right">
-					>
-				</button>
-				<div class="calendar_date_text">
-					April 13-19, 2014
-				</div>
-			</div>		
-		</td>
-	</tr>
-	</table>
+	<div class="top_level">
+		<button class="create_task_button" id="Create_Task_Button">Create Task</button>
+		<div class="calendar">
+			<button class="calendar_button_today" id="Calendar_Button_Today">
+				Today
+			</button>
+			<button class="calendar_button" id="Calendar_Button_Left">
+				<
+			</button>
+			<button class="calendar_button" id="Calendar_Button_Right">
+				>
+			</button>
+			<div class="calendar_date_text">
+				April 13-19, 2014
+			</div>
+		</div>
+		<div class="logo">Do.It</div>
+	</div>	
 
 	<hr></hr>
 

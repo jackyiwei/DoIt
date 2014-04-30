@@ -25,48 +25,28 @@ span {
 }
 
 /* Makes button position happen */
-.createTask_col {
-	text-align: right;
-	width: 55%;
+.top_level {
+	padding-top: 10px;
+	display: inline-block;	
+	position: relative;
+	text-align: left;
+	width: 100%;
+	vertical-align: bottom;
 }
 
-/* Makes the correct response line appear in blue */
-.button {
-	height:75px;
-	width:200px;
-	font-size: 25px;
-	background: #b0e0e6;	
+.calendar {
+	margin-left: 10px;
+	display: inline-block;	
+	position: absolute;
+	bottom: 0px;
 }
 
 .logo {
 	font-size: 50px;
 	font-family: 'Fredericka the Great';
 	padding-right:30px;
-	padding-top: 10px;
 	text-align: right;
-}
-
-.calendar {
-	text-align: right;
-	padding-right: 0px;
-	padding-top: 15px;
-	padding-bottom: 10px;
-}
-
-.calendar_button {
-	display: inline-block;
-	background: #b0e0e6;
-	height: 30px;
-	width: 45px;
-	font-size: 18px;
-}
-.calendar_button_today {
-	display: inline-block;
-	background: #b0e0e6;
-	height: 30px;
-	width: 70px;
-	font-size: 18px;
-	text-align: center;
+	float: right;
 }
 
 .calendar_date_text {
