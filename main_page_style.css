@@ -88,12 +88,12 @@ span {
 	max-width: 100px; /* don't know why this works. come back to later?*/
 	height: 800px;
 }
+
 /* Individual task */
 .task {
 	position:relative;
-	padding-top: 15px;
-	padding-bottom: 0px;
-	padding-left: 15px;
+	padding-top: 0px;
+	padding-bottom: 0px;	
 	padding-right: 15px;
 	margin-bottom: 10px;
 	vertical-align: bottom;
@@ -104,6 +104,22 @@ span {
 	border-radius:25px;
 	cursor: pointer;
 }
+
+/* left part of task (the menu) */
+.task_left{
+	margin-top: 0px;
+	margin-left: 15px;
+    float:left;
+	width: 5px;
+}
+
+/* Right part of a task (everything besides the menu) */
+.task_right{
+	float: right;
+	margin-top: 10px;
+	width: 90%;
+}
+
 /* Name of task*/
 .task_text {
 	font-size: 30px;
@@ -131,6 +147,7 @@ span {
 	width: 18%;
 	text-align: right;
 }
+
 /* format a kid's name */
 .name {
 	font-size: 30px;
@@ -138,44 +155,56 @@ span {
 	color: black;
 }
 
-.list { 
-	text-align:left;
-	display:none;
-	position:absolute; 
-	left:300px; 
-	top:100px;
-	z-index:999;
-	width:150px;
-	margin:0; 
-	padding:10px; 
-	list-style:none;
-	background:#eee; 
-	-moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;
-	-moz-box-shadow:0 0 5px #999; -webkit-box-shadow:0 0 5px #999; box-shadow:0 0 5px #999
-}
-
-.task>ul.list li {
-	padding:10px;
-	border-bottom: solid 1px #ccc;
-}
-
-.task>ul.list li:hover {
-	background:#B0E0E6; 	
-}
-
-.task>ul.list li:last-child {
-	border:none
-}
-
 .done {
+	margin-top:3px;
 	z-index:998;
 	background:#32cd32;
 	color: white;
 	font-size: 24px;
 	position:absolute; 
-	right: 0;
+	right: 2px;
 	transform:rotate(30deg);
 	-ms-transform:rotate(30deg); /* IE 9 */
 	-webkit-transform:rotate(30deg); /* Opera, Chrome, and Safari */
 	font-family: 'Fredericka the Great';
+}
+
+/* Menu items for tasks */
+.fa {
+	font-size: 0.8em;
+	cursor: pointer;
+	position: relative;
+}
+
+/* Menu items for tasks when hovered over */
+.fa:hover {
+	font-size: 1em;
+}
+
+/* tooltips for task menu items */
+.fa span {
+	margin-left: -999em;
+	position: absolute;
+}
+
+/* tooltips for task menu items */
+.fa:hover span {
+	border-radius: 5px 5px; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); 
+	-moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	
+	position: absolute; 
+	left: 1em; 
+	top: 1em; 
+	z-index: 999;
+	margin-left: 0; 
+	white-space: nowrap;
+	
+	padding: 0.8em 1em;
+	background: #FFFFAA; 
+	border: 1px solid #FFAD33;
 }
