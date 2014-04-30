@@ -183,9 +183,9 @@ span {
 }
 
 /* tooltips for task menu items */
-.fa span {
-	margin-left: -999em;
+.fa span {	
 	position: absolute;
+	display: none;
 }
 
 /* tooltips for task menu items */
@@ -208,4 +208,6 @@ span {
 	padding: 0.8em 1em;
 	background: #FFFFAA; 
 	border: 1px solid #FFAD33;
+	
+	display: initial;
 }
