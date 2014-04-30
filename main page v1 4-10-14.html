@@ -67,14 +67,45 @@
 		function allowDrop(e) {
 			e.preventDefault();
 		}
+		
+		function setColorForTask(id) {
+			var normalTaskColor = '#dddddd';
+			var normalTaskBorderColor = '#a1a1a1';
+			
+			var completedTaskColor = '#89E894';
+			var completedTaskBorderColor = '#32cd32';
+			
+			var overdueTaskColor = '#ff7878';
+			var overdueTaskBorderColor = '#cd3232';
+			
+			var task = d.getTask(id);
+			
+			if (task.done) {
+				//Completed task
+				$('#' + id).css('background', completedTaskColor);
+				$('#' + id).css('borderColor', completedTaskBorderColor);
+			}
+			else {
+				var taskDate = new Date(task.year, task.month, task.day);
+				if (taskDate < today) {
+					//Overdue task
+					$('#' + id).css('background', overdueTaskColor);
+					$('#' + id).css('borderColor', overdueTaskBorderColor);
+				}
+				else {
+					//Normal task
+					$('#' + id).css('background', normalTaskColor);
+					$('#' + id).css('borderColor', normalTaskBorderColor);
+				}
+			}
+		}
 
-		$(document).ready(function() {
-
+		$(document).ready(function() {					
 			var doneLoading = function() {
 				//Load all tasks
 				var tasks = d.getAllTasks();
 				for(var i = 0; i < tasks.length; i++){
-					taskDate = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
+					var taskDate = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
 					if (taskDate < startDate || taskDate > endDate) {
 						continue;
 					}
@@ -128,13 +159,12 @@
 						$('#Optional_col').append(task_to_add);
 					}
 
-					if (tasks[i].done){
-						//green background for done tasks
-						$('#' + tasks[i].id).css('background', '#32cd32');
-					} else {
+					if (!tasks[i].done){
 						//hide "Did.It" text for not done tasks
 						$('#' + tasks[i].id).find('.done').css('display','none');
 					}
+					
+					setColorForTask(tasks[i].id);
 				}
 
 				//Event handlers for clicking on menu items
@@ -158,13 +188,15 @@
 			if ($.getUrlVar('startDate')) {
 				startDate = new Date();
 				startDate.setTime($.getUrlVar('startDate'));
-				console.log(startDate);
 			}
 			else {
 				startDate = new Date();
 			}
 			startDate.setDate(startDate.getDate() - startDate.getDay());
 			startDate.setHours(0,0,0,0);
+			
+			today = new Date();
+			today.setHours(0,0,0,0);
 			
 			endDate = new Date(startDate);
 			endDate.setDate(startDate.getDate() + 6);
@@ -211,13 +243,12 @@
 		
 		//Change done status of task
 		function changeDoneClicked(e) {
-			id = this.id.substring(10);
+			var id = this.id.substring(10);
 			
 			if (d.getTask(id).done) {
 				//Mark task as not done
 				d.markNotDone(id, null);
 				
-				$('#' + id).css('background', '#dddddd');
 				$('#' + id).find('.done').css('display','none');				
 				$(this).html('<span class="tooltip">Mark as done</span>');
 				$(this).attr('class', 'fa fa-check-square-o');
@@ -226,22 +257,22 @@
 				//Mark task as done
 				d.markDone(id, null);
 			
-				$('#' + id).css('background', '#32cd32');
 				$('#' + id).find('.done').css('display','initial');				
 				$(this).html('<span class="tooltip">Mark as not done</span>');
 				$(this).attr('class', 'fa fa-minus-square-o');
 			}
+			setColorForTask(id);
 		}
 		
 		//Edit button of a task was clicked
 		function editClicked(e) {
-			id = this.id.substring(4);
+			var id = this.id.substring(4);
 			document.location = "index.html?id=" + id + '&startDate=' + startDate.getTime();
 		}
 		
 		//Delete button of a task was clicked
 		function deleteClicked(e) {
-			id = this.id.substring(6);
+			var id = this.id.substring(6);
 			taskName = d.getTask(id).name;
 			if (confirm('Are you sure you want to delete the task "' + taskName + '"?')) {
 				$('#' + id).remove();
