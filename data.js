@@ -13,6 +13,12 @@ var Data = function(callback) {
 		for (var i = 0; i < tasks.length ; i++) {			
 			nextTaskId = Math.max(nextTaskId, tasks[i].id + 1);
 		}
+		
+		tasks.sort(function(a, b) {
+			a = new Date(new Date(a.year, a.month, a.day));
+			b = new Date(new Date(b.year, b.month, b.day));
+			return a > b ? 1 : a < b ? -1 : 0;
+		});
 	
 		if (callback) {
 			callback();
@@ -54,7 +60,7 @@ var Data = function(callback) {
 	}
 	
 	//Returns all tasks
-	this.getAllTasks = function() {
+	this.getAllTasks = function() {		
 		return tasks;
 	}
 	
