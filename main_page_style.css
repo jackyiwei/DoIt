@@ -86,6 +86,7 @@ span {
 	border: 2px solid black;
 	width: 25%;
 	max-width: 100px; /* don't know why this works. come back to later?*/
+	min-width: 300px;
 	height: 800px;
 }
 
