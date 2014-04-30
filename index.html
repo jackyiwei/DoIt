@@ -7,6 +7,8 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>Task Creation</title>
 
+	<link href='http://fonts.googleapis.com/css?family=Fredericka the Great' rel='stylesheet' type='text/css'>
+	
 	<!-- Load Font Awesome -->	
 	<link rel="stylesheet" href="font-awesome-4.0.3/css/font-awesome.min.css">
 	
@@ -56,12 +58,9 @@
 	function bindDeleteReminders() {
 		//Happens when a user deletes a reminder
 		$('.fa.fa-times').click(deleteButtonPressed);
-		$('.fa.fa-times').tooltip();
 	}
 	
-	function deleteButtonPressed(e) {
-		$('.fa.fa-times').tooltip("close");
-	
+	function deleteButtonPressed(e) {	
 		var table = document.getElementById("table");					
 		if (table.rows.length ==  7) {
 			//Deleted only reminder
@@ -128,7 +127,7 @@
 							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
+							cell3.innerHTML = '<i class="fa fa-times" id="btnDelete' + i + '"><span class="tooltip">Delete reminder</span></i>';
 						}
 					}
 
@@ -187,12 +186,11 @@
 				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
+				cell3.innerHTML = '<i class="fa fa-times" id="btnDelete' + i + '"><span class="tooltip">Delete reminder</span></i>';
 				
 
 				//Bind the click operation for delete reminder icons				
 				$('#btnDelete' + i).click(deleteButtonPressed);
-				$('#btnDelete' + i).tooltip();
 			});
 		}
 
@@ -286,6 +284,7 @@
 </head>
 
 <body>
+	<div class="logo">Do.It</div>
     <h1 id='title'>Create Task</h1>
     <button type="button" class="back_button" id='btnBack'>Back</button>
 
@@ -324,7 +323,7 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<td><i class="fa fa-times" title="Delete reminder" id="btnDelete0"></i></td>
+			<td><i class="fa fa-times" id="btnDelete0"><span class="tooltip">Delete reminder</span></i></td>
         </tr>
 		<tr>
 			<td></td>

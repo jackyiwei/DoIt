@@ -23,6 +23,14 @@ table{
 	margin-top: 20px;
 }
 
+.logo {
+	font-size: 50px;
+	font-family: 'Fredericka the Great';
+	padding-right:30px;
+	text-align: right;
+	float: right;
+}
+
 .back_button{
 	height: 30px;
 	width: 90px;
@@ -59,10 +67,42 @@ table{
 
 .fa.fa-times {
 	font-size: 0.8em;
+	position: relative;
 }
 
 .fa.fa-times:hover {
-	color:red;
+	color:#ff7878; /* just red color instead? */
 	font-size: 1em;
 	cursor: pointer;
+}
+
+/* tooltips for task menu items */
+.fa span {	
+	position: absolute;
+	display: none;
+}
+
+/* tooltips for task menu items */
+.fa:hover span {
+	color: black;
+	border-radius: 5px 5px; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); 
+	-moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	
+	position: absolute; 
+	left: 1em; 
+	top: 1em; 
+	z-index: 999;
+	margin-left: 0; 
+	white-space: nowrap;
+	
+	padding: 0.8em 1em;
+	background: #FFFFAA; 
+	border: 1px solid #FFAD33;
+	
+	display: initial;
 }
