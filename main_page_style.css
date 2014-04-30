@@ -103,7 +103,8 @@ span {
 	height:90px;
 	border:2px solid #a1a1a1;
 	border-radius:25px;
-	cursor: pointer;
+	
+	cursor: -webkit-grab; cursor: -moz-grab;
 }
 
 /* left part of task (the menu) */

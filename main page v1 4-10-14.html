@@ -23,7 +23,24 @@
 		
 	
 	<script type="text/javascript">
-		//Drag task start
+		$.extend({
+			getUrlVars : function() {
+				var vars = [], hash;
+				var hashes = window.location.href.slice(
+						window.location.href.indexOf('?') + 1).split('&');
+				for ( var i = 0; i < hashes.length; i++) {
+					hash = hashes[i].split('=');
+					vars.push(hash[0]);
+					vars[hash[0]] = hash[1];
+				}
+				return vars;
+			},
+			getUrlVar : function(name) {
+				return $.getUrlVars()[name];
+			}
+		});
+
+	//Drag task start
 		function dragTask(e) {
 			e.dataTransfer.setData("Text", e.target.id);
 		}
@@ -57,6 +74,11 @@
 				//Load all tasks
 				var tasks = d.getAllTasks();
 				for(var i = 0; i < tasks.length; i++){
+					taskDate = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
+					if (taskDate < startDate || taskDate > endDate) {
+						continue;
+					}
+
 					var task_to_add = '<div class="task" draggable="true" ondragstart="dragTask(event)" id="' + tasks[i].id + '">';
 										
 						/* Div for icons on the left */
@@ -123,9 +145,65 @@
 				$('.fa.fa-trash-o').click(deleteClicked);				
 			}
 
+			handleDateStuff();
+			
+			$('#Create_Task_Button').click(function(e) {
+				document.location = 'index.html?startDate=' + startDate.getTime();
+			});
+			
 			d = new Data(doneLoading);
 		});
 
+		function handleDateStuff() {
+			if ($.getUrlVar('startDate')) {
+				startDate = new Date();
+				startDate.setTime($.getUrlVar('startDate'));
+				console.log(startDate);
+			}
+			else {
+				startDate = new Date();
+			}
+			startDate.setDate(startDate.getDate() - startDate.getDay());
+			startDate.setHours(0,0,0,0);
+			
+			endDate = new Date(startDate);
+			endDate.setDate(startDate.getDate() + 6);
+			endDate.setHours(23,59,59,999);
+			
+			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			if (startDate.getMonth() == endDate.getMonth()) {
+				//Same month
+				var t = monthNames[startDate.getMonth()] + ' ' + startDate.getDate() + ' - ' + endDate.getDate() + ', ' + startDate.getFullYear();
+				$('.calendar_date_text').html(t);		
+			}
+			else {
+				//Different month
+				if (startDate.getYear() == endDate.getYear()) {
+					var t = monthNames[startDate.getMonth()] + ' ' + startDate.getDate() + ' - ' + monthNames[endDate.getMonth()] + ' ' + endDate.getDate() + ', ' + startDate.getFullYear();
+					$('.calendar_date_text').html(t);
+				}
+				else {
+					//Different year
+					var t = monthNames[startDate.getMonth()] + ' ' + startDate.getDate() + ', ' + startDate.getFullYear() + ' - ' + monthNames[endDate.getMonth()] + ' ' + endDate.getDate() + ', ' + endDate.getFullYear();
+					$('.calendar_date_text').html(t);
+				}
+			}
+			
+			$('#Calendar_Button_Today').click(function(e) {
+				document.location = 'main%20page%20v1%204-10-14.html';
+			});
+			
+			$('#Calendar_Button_Left').click(function(e) {
+				startDate.setDate(startDate.getDate() - 7);
+				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + startDate.getTime();
+			});
+			
+			$('#Calendar_Button_Right').click(function(e) {
+				startDate.setDate(startDate.getDate() + 7);
+				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + startDate.getTime();
+			});
+		}
+		
 		//Details button of a task was clicked
 		function detailsClick(e) {
 			console.log('do something here');
@@ -158,7 +236,7 @@
 		//Edit button of a task was clicked
 		function editClicked(e) {
 			id = this.id.substring(4);
-			document.location = "index.html?id=" + id
+			document.location = "index.html?id=" + id + '&startDate=' + startDate.getTime();
 		}
 		
 		//Delete button of a task was clicked
@@ -178,9 +256,7 @@
 	<table class="topTable">
 	<tr>
 		<td class="createTask_col">
-			<form action="index.html" method="get">
-					<button class="button" type="submit" id="Create_Task_Button">Create Task</button> 
-			</form>
+			<button class="button" id="Create_Task_Button">Create Task</button> 
 		</td>
 		<td>
 			<div class="logo">Do.It</div>

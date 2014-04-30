@@ -127,7 +127,6 @@
 							cell1.className = "firstCol";
 							cell2.className = "reminder_td";
 							cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							//cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
 							cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
 						}
 					}
@@ -147,10 +146,18 @@
 			//Bind the click operation for delete reminder icons
 			bindDeleteReminders();
 
+			callback = function() {
+				if ($.getUrlVar('startDate')) {
+					document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
+				}
+				else
+				{
+					document.location = 'main%20page%20v1%204-10-14.html';
+				}
+			};
+			
 			//Creates/Saves task. Should display dialog box warning user about the editing of repeating tasks.
 			$("#btnSave").click(function() {
-				var callback = function() {document.location = 'main%20page%20v1%204-10-14.html';}
-			
 				if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 					task = d.getTask($.getUrlVar('id'));
 					d.updateTask(task.id, "Edited Task", new Date(task.year, task.month, task.day), task.repeat, task.assigned, task.reward, task.reminders, task.details, callback);
@@ -161,9 +168,7 @@
 			});
 
 			//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)
-			$("#btnBack").click(function() {
-				document.location = 'main%20page%20v1%204-10-14.html';
-			});
+			$("#btnBack").click(callback);
 
 			//Add new reminder button clicked
 			$("#btnNewReminder").click(function() {
@@ -181,7 +186,6 @@
 				cell1.className = "firstCol";
 				cell2.className = "reminder_td";
 				cell2.innerHTML = '<input type="text" name="reminder' + i + '" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-				//cell3.innerHTML = '<img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete' + i + '">';
 				cell3.innerHTML = '<i class="fa fa-times" title="Delete reminder" id="btnDelete' + i + '"></i>';
 				
 
@@ -319,7 +323,6 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
             <td class="reminder_td"><input type="text" name="reminder0" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<!-- <td><img src="delete.ico" alt="Delete Reminder" height="24px" width="24px" class="deleteReminder" id="btnDelete0"></td> -->
 			<td><i class="fa fa-times" title="Delete reminder" id="btnDelete0"></i></td>
         </tr>
 		<tr>
