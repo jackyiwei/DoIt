@@ -158,12 +158,17 @@
 			
 			//Creates/Saves task. Should display dialog box warning user about the editing of repeating tasks.
 			$("#btnSave").click(function() {
+				var reminders = new Array();			
+				$(".reminder").each(function(index) {
+					reminders.push($(this).val());
+				});
+			
 				if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 					task = d.getTask($.getUrlVar('id'));
-					d.updateTask(task.id, "Edited Task", new Date(task.year, task.month, task.day), task.repeat, task.assigned, task.reward, task.reminders, task.details, callback);
+					d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);
 				}
 				else {
-					d.createTask("New Task", new Date(), null, null, null, [0,1,2], "no details for this task", callback);					
+					d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);					
 				}
 			});
 

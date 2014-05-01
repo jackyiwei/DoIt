@@ -1,5 +1,5 @@
 html {
-    background-color: #eee;
+    background-color: #eeeeff;
 	font-family: "Trebuchet MS";
 	color: black;
 }
@@ -39,6 +39,7 @@ span {
 	display: inline-block;	
 	position: absolute;
 	bottom: 0px;
+	white-space: nowrap;
 }
 
 .logo {
