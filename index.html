@@ -35,7 +35,8 @@
 <script>
   $(function() {
     $( "#datepicker" ).datepicker({
-		minDate: 0
+		minDate: 0,
+		onSelect: function(date) {validateDeadline()}
 	});
   });
 	$.extend({
@@ -121,7 +122,8 @@
 		$("#assigned").autocomplete({
 			minLength: 0,
 			delay: 0,
-			source: d.getKids()
+			source: d.getKids(),
+			close: function(event, ui) {validateAssigned()}
 		}).on("focus", function () {				
 			$(this).autocomplete("search", document.getElementById("assigned").value);
 		});
@@ -137,42 +139,7 @@
 			{
 				document.location = 'main%20page%20v1%204-10-14.html';
 			}
-		};
-		
-		//Creates/Saves task
-		$("#btnSave").click(function() {
-			$("input").css('box-shadow', 'none');
-			
-			var valid = true;
-			
-			if (isBlank($('#taskTitle').val())) { 
-				$("#taskTitle").css('box-shadow', '0 0 5px #ff7878');
-				valid = false;
-			}
-							
-			if (!$('#datepicker').val()) { 
-				$("#datepicker").css('box-shadow', '0 0 5px #ff7878');
-				valid = false;
-				//I'm assuming the user isn't trying to fuck stuff up, so assuming date is valid
-			}
-			
-			if (!valid) {
-				return;
-			}
-		
-			var reminders = new Array();			
-			$(".reminder").each(function(index) {
-				reminders.push($(this).val());
-			});
-		
-			if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
-				task = d.getTask($.getUrlVar('id'));
-				d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);
-			}
-			else {
-				d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);					
-			}
-		});
+		};		
 
 		//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)
 		$("#btnBack").click(callback);
@@ -181,6 +148,91 @@
 		$("#btnNewReminder").click(addNewReminder);
 		
 		$("#details").width($("#formLabels").width() + $("#taskTitle").width() + 6);
+		
+		$('form').bind('submit', submitForm);
+		
+		$('#taskTitle').keyup(validateTaskName);
+		$('#datepicker').keyup(validateDeadline);
+		$('#assigned').keyup(validateAssigned);
+		$('#reward').keyup(validateReward);
+	}
+	
+	function validateAssigned() {
+		var val = $('#assigned').val();	
+		if ($.inArray(val, d.getKids()) > 0 || isBlank(val)) {
+			$('#assigned')[0].setCustomValidity('');
+			return true;
+		}
+		else {
+			$('#assigned')[0].setCustomValidity('Leave blank or choose from list');
+			return false;
+		}
+	}
+	
+	function validateTaskName() {
+		if (isBlank($('#taskTitle').val())) {
+			$('#taskTitle')[0].setCustomValidity('Required field');
+			return false;
+		}
+		else {
+			$('#taskTitle')[0].setCustomValidity('');
+			return true;
+		}
+	}
+	
+	function validateReward() {
+		if (isBlank($('#reward').val()) || $.isNumeric($('#reward').val())) {
+			$('#reward')[0].setCustomValidity('');
+			return true;
+		}
+		else {
+			$('#reward')[0].setCustomValidity('Leave blank or enter a number');
+			return false;
+		}
+	}
+	
+	function validateDeadline() {
+		if ($('#datepicker').val()) {
+			$('#datepicker')[0].setCustomValidity('');
+			return true;
+		}
+		else {
+			$('#datepicker')[0].setCustomValidity('Required field');
+			return false;
+		}
+	}
+	
+	function validateForm() {
+		var valid = true;
+		
+		valid = valid & validateTaskName();
+		valid = valid & validateDeadline();
+		valid = valid & validateAssigned();
+		valid = valid & validateReward();
+		
+		return valid;
+	}
+	
+	function submitForm() {		
+		if (!validateForm()) {
+			return false;
+		}
+	
+		var reminders = new Array();			
+		$(".reminder").each(function(index) {
+			reminders.push($(this).val());
+		});
+	
+		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
+			task = d.getTask($.getUrlVar('id'));
+			d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
+		}
+		else {
+			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);					
+		}
+		
+		//This just makes the form not actually submit
+		return false;
 	}
 	
 	$(document).ready(function() {
@@ -273,38 +325,39 @@
 </head>
 
 <body>
-	<div id="top">
-		<div class="logo">Do.It</div>
-		<h1 id='title'>Create Task</h1>
-		<button type="button" class="back_button" id='btnBack'>Back</button>
+	<form name="taskForm">
+		<div id="top">
+			<div class="logo">Do.It</div>
+			<h1 id='title'>Create Task</h1>
+			<button type="button" class="back_button" id='btnBack'>Back</button>
+			<button type="submit" class="save_button" id='btnSave'>Save</button>
+			<hr></hr>
+		</div>	
 
-		<button type="button" class="save_button" id='btnSave'>Save</button>
-		<hr></hr>
-	</div>	
-
-	<div id='form'>
-		<div id='formLabels'>
-			<div class="container formRow"><i class="fa fa-asterisk"></i>Task: </div>
-			<div class="container formRow"><i class="fa fa-asterisk"></i>Deadline: </div>
-			<div class="formRow">Repeat: </div>
-			<div class="formRow">Assigned To: </div>		
-			<div class="formRow">Reward ($):</div>		
-			<div class="formRow">Reminders: </div>		
+		<div id='form'>
+			<div id='formLabels'>
+				<div class="container formRow"><i class="fa fa-asterisk"></i>Task: </div>
+				<div class="container formRow"><i class="fa fa-asterisk"></i>Deadline: </div>
+				<div class="formRow">Repeat: </div>
+				<div class="formRow">Assigned To: </div>		
+				<div class="formRow">Reward ($):</div>		
+				<div class="formRow">Reminders: </div>		
+			</div>
+			<div id='formFields'>
+				<div class="formRow"><input type="text" name="taskTitle" id="taskTitle"></div>
+				<div class="formRow"><input type="text" id="datepicker"></div>
+				<div class="formRow"><input type="checkbox" id="checkAddress" onclick="checkAddress(this)" checked="checked" autocomplete="off"/><p size=3 id="checkText" style="display:inline">daily</p></div>
+				<div class="formRow"><input type="text" name="assigned" id="assigned"></div>
+				<div class="formRow"><input type="text" name="reward" id="reward"></div>
+				<div class="formRow" id="no_reminder_div"><span class="no_reminder">No reminders set</span></div>
+				<div class="formRow newReminderDiv"><button type="button" class=button" id='btnNewReminder'>Add New Reminder</button></div>
+			</div>
+			<div id='detailsDiv'>
+				<div>Details:</div>
+				<textarea rows="4" placeholder="Enter details here..." id="details"></textarea>
+			</div>
 		</div>
-		<div id='formFields'>
-			<div class="formRow"><input type="text" name="taskTitle" id="taskTitle"></div>
-			<div class="formRow"><input type="text" id="datepicker"></div>
-			<div class="formRow"><input type="checkbox" id="checkAddress" onclick="checkAddress(this)" checked="checked" autocomplete="off"/><p size=3 id="checkText" style="display:inline">daily</p></div>
-			<div class="formRow"><input type="text" name="assigned" id="assigned"></div>
-			<div class="formRow"><input type="text" name="reward" id="reward"></div>
-			<div class="formRow" id="no_reminder_div"><span class="no_reminder">No reminders set</span></div>
-			<div class="formRow newReminderDiv"><button type="button" class=button" id='btnNewReminder'>Add New Reminder</button></div>
-		</div>
-		<div id='detailsDiv'>
-			<div>Details:</div>
-			<textarea rows="4" placeholder="Enter details here..." id="details"></textarea>
-		</div>
-	</div>
+	</form>
 	
 	<div id="dialog-form" title="Repeat Details">
 	  <p class="validateTips">All form fields are required.</p>

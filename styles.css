@@ -123,3 +123,7 @@ hr{
 .formRow{
 	height: 25px;
 }
+
+#assigned {
+	text-transform: capitalize;
+}
