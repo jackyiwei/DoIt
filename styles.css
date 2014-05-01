@@ -65,6 +65,17 @@ table{
 	font-size: 15px;
 }
 
+.container {
+	position: relative;
+}
+
+.fa.fa-asterisk {
+	font-size: 8px;
+	color: #ff7878;
+	position: absolute;
+	left: -10px;
+}
+
 .fa.fa-times {
 	font-size: 0.8em;
 	position: relative;

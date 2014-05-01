@@ -100,6 +100,10 @@
         }
     }
 
+	function isBlank(str) {
+		return (!str || /^\s*$/.test(str));
+	}
+	
 	$(document).ready(function() {
 		var doneLoading = function() {
 			if ($.getUrlVar('id')) {
@@ -164,8 +168,27 @@
 				}
 			};
 			
-			//Creates/Saves task. Should display dialog box warning user about the editing of repeating tasks.
+			//Creates/Saves task
 			$("#btnSave").click(function() {
+				$("input").css('box-shadow', 'none');
+				
+				var valid = true;
+				
+				if (isBlank($('#taskTitle').val())) { 
+					$("#taskTitle").css('box-shadow', '0 0 5px #ff7878');
+					valid = false;
+				}
+								
+				if (!$('#datepicker').val()) { 
+					$("#datepicker").css('box-shadow', '0 0 5px #ff7878');
+					valid = false;
+					//I'm assuming the user isn't trying to fuck stuff up, so assuming date is valid
+				}
+				
+				if (!valid) {
+					return;
+				}
+			
 				var reminders = new Array();			
 				$(".reminder").each(function(index) {
 					reminders.push($(this).val());
@@ -314,12 +337,12 @@
 
     <table id='table'>
         <tr>
-            <td>Task: </td>
+            <td><span class="container"><i class="fa fa-asterisk"></i>Task: </span></td>
             <td><input type="text" name="taskTitle" id="taskTitle"></td>
         </tr>
 
         <tr>
-            <td>Deadline: </td>
+            <td><span class="container"><i class="fa fa-asterisk"></i>Deadline: </span></td>
             <td><input type="text" id="datepicker"></td>
         </tr>
 
@@ -343,8 +366,6 @@
         <tr id="reminderRow0">
             <td class="firstCol">Reminders:</td>
 			<td class="no_reminder">No reminders set</td>
-            <!-- <td class="reminder_td"><input type="text" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td>
-			<td><i class="fa fa-times" id="btnDelete0"><span class="tooltip">Delete reminder</span></i></td> -->
         </tr>
 		<tr>
 			<td></td>
