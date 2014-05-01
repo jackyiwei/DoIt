@@ -55,40 +55,27 @@
 		}
 	});
 
-	function bindDeleteReminders() {
-		//Happens when a user deletes a reminder
-		$('.fa.fa-times').click(deleteButtonPressed);
+	//Adds a new reminder box, and deletes to "No reminders set" div if it exists
+	function addNewReminder() {
+		//Remove "No reminders set" div if it exists
+		if ($('#no_reminder_div')[0]) {
+			$('#no_reminder_div').remove();	
+		}
+
+		//Add new reminder box
+		$('.newReminderDiv').before('<div class="formRow"><input type="text" class="reminder"> days before <i class="fa fa-times"><span class="tooltip">Delete reminder</span></i></div>');
+		
+		//Bind "Delete reminder" button to its handler
+		$('.fa.fa-times').click(deleteReminder);
 	}
 	
-	function deleteButtonPressed(e) {	
-		var table = document.getElementById("table");					
-		if (table.rows.length ==  7) {
-			//Delete last reminder
-			table.rows[5].deleteCell(2);
-			table.rows[5].deleteCell(1);
-			
-			var cell = table.rows[5].insertCell(1);
-			cell.className = "no_reminder";
-			cell.innerHTML = 'No reminders set';
-		}
-		else {
-			//There's at least two reminder rows (including the top-most one)
-			var element = e.currentTarget.parentElement.parentElement;
-			
-			element.parentNode.removeChild(element);
-
-			//changes id of rows and their input boxes to be what we expect them to be post delete
-			var rows = table.rows;
-			for (var i = 5; i < rows.length - 1; i++) {
-				var rowObj = $('#' + rows[i].id);
-				rowObj.find('.reminder').attr('id', 'reminder' + (i - 5));
-				rows[i].id = 'reminderRow' + (i - 5);
-
-				//Makes sure the first reminder row has text
-				if (i == 5) {
-					rowObj.find('.firstCol').html('Reminders:');
-				}
-			}
+	function deleteReminder(e) {
+		//Delete this reminder (along with its parent div)
+		$(this).parent().remove()
+		
+		//Add "No reminders set" when removing last reminder		
+		if (!$('.reminder')[0] && !$('#no_reminder_div')[0]) {
+			$('.newReminderDiv').before('<div class="formRow" id="no_reminder_div"><span class="no_reminder">No reminders set</span></div>');
 		}
 	}	
 
@@ -104,143 +91,102 @@
 		return (!str || /^\s*$/.test(str));
 	}
 	
-	$(document).ready(function() {
-		var doneLoading = function() {
-			if ($.getUrlVar('id')) {
-				task = d.getTask($.getUrlVar('id'));
-				if (task) {
-					//edit task
-					$('#title').html('Edit Task');
+	function doneLoading() {
+		if ($.getUrlVar('id')) {
+			task = d.getTask($.getUrlVar('id'));
+			if (task) {
+				//We're in edit task mode
+				$('#title').html('Edit Task');
 
-					document.getElementById('taskTitle').value = task.name;
+				document.getElementById('taskTitle').value = task.name;
 
-					$('#datepicker').datepicker("setDate", new Date(task.year, task.month, task.day));
+				$('#datepicker').datepicker("setDate", new Date(task.year, task.month, task.day));
 
-					document.getElementById('assigned').value = task.assigned;
-					document.getElementById('reward').value = task.reward;
+				document.getElementById('assigned').value = task.assigned;
+				document.getElementById('reward').value = task.reward;
 
-					//Makes page show current reminders set for task
-					if (task.reminders && task.reminders.length > 0) {
-						$('.no_reminder').after('<td class="reminder_td"><input type="text" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td><td><i class="fa fa-times" id="btnDelete0"><span class="tooltip">Delete reminder</span></i></td>)');
-						$('.no_reminder').remove();
-						
-						document.getElementById('reminder0').value = task.reminders[0];
-
-						var table = document.getElementById("table");
-						for (var i = 1; i < task.reminders.length; i++) {
-							var row = table.insertRow(5 + i);
-
-							row.id = 'reminderRow' + i;
-
-							var cell1 = row.insertCell(0);
-							var cell2 = row.insertCell(1);
-							var cell3 = row.insertCell(2);
-
-							cell1.className = "firstCol";
-							cell2.className = "reminder_td";
-							cell2.innerHTML = '<input type="text" id="reminder' + i + '" value="' + task.reminders[i] + '" class="reminder"><div class="daysBefore">days before</div>';
-							cell3.innerHTML = '<i class="fa fa-times" id="btnDelete' + i + '"><span class="tooltip">Delete reminder</span></i>';
-						}
+				//Makes page show current reminders set for task
+				if (task.reminders) {
+					for (var i = 0; i < task.reminders.length; i++) {
+						addNewReminder();
+						$(".reminder")[$(".reminder").length - 1].value = task.reminders[i];
 					}
-
-					document.getElementById('details').value = task.details;
 				}
+
+				document.getElementById('details').value = task.details;
 			}
-
-			$("#assigned").autocomplete({
-				minLength: 0,
-				delay: 0,
-				source: d.getKids()
-			}).on("focus", function () {				
-				$(this).autocomplete("search", document.getElementById("assigned").value);
-			});
-			
-			//Bind the click operation for delete reminder icons
-			bindDeleteReminders();
-
-			callback = function() {
-				if ($.getUrlVar('startDate')) {
-					document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
-				}
-				else
-				{
-					document.location = 'main%20page%20v1%204-10-14.html';
-				}
-			};
-			
-			//Creates/Saves task
-			$("#btnSave").click(function() {
-				$("input").css('box-shadow', 'none');
-				
-				var valid = true;
-				
-				if (isBlank($('#taskTitle').val())) { 
-					$("#taskTitle").css('box-shadow', '0 0 5px #ff7878');
-					valid = false;
-				}
-								
-				if (!$('#datepicker').val()) { 
-					$("#datepicker").css('box-shadow', '0 0 5px #ff7878');
-					valid = false;
-					//I'm assuming the user isn't trying to fuck stuff up, so assuming date is valid
-				}
-				
-				if (!valid) {
-					return;
-				}
-			
-				var reminders = new Array();			
-				$(".reminder").each(function(index) {
-					reminders.push($(this).val());
-				});
-			
-				if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
-					task = d.getTask($.getUrlVar('id'));
-					d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);
-				}
-				else {
-					d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);					
-				}
-			});
-
-			//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)
-			$("#btnBack").click(callback);
-
-			//Add new reminder button clicked
-			$("#btnNewReminder").click(function() {
-			
-				if ($('.no_reminder')[0]) {
-					$('.no_reminder').after('<td class="reminder_td"><input type="text" id="reminder0" class="reminder"><div class="daysBefore">days before</div></td><td><i class="fa fa-times" id="btnDelete0"><span class="tooltip">Delete reminder</span></i></td>)');
-					$('.no_reminder').remove();	
-					$('#btnDelete0').click(deleteButtonPressed);
-				}
-				else {			
-					var table = document.getElementById("table");
-					var i = table.rows.length - 6;
-
-					var row = table.insertRow(5 + i);
-
-					row.id = 'reminderRow' + i;
-
-					var cell1 = row.insertCell(0);
-					var cell2 = row.insertCell(1);
-					var cell3 = row.insertCell(2);
-
-					cell1.className = "firstCol";
-					cell2.className = "reminder_td";
-					cell2.innerHTML = '<input type="text" id="reminder' + i + '" class="reminder"><div class="daysBefore">days before</div>';
-					cell3.innerHTML = '<i class="fa fa-times" id="btnDelete' + i + '"><span class="tooltip">Delete reminder</span></i>';
-					
-					//Bind the click operation for delete reminder icons				
-					$('#btnDelete' + i).click(deleteButtonPressed);
-				}				
-			});
 		}
 
+		//Autocomplete for the "Assigned to" box
+		$("#assigned").autocomplete({
+			minLength: 0,
+			delay: 0,
+			source: d.getKids()
+		}).on("focus", function () {				
+			$(this).autocomplete("search", document.getElementById("assigned").value);
+		});
+		
+		//Bind the click operation for delete reminder icons
+		$('.fa.fa-times').click(deleteReminder);
+
+		callback = function() {
+			if ($.getUrlVar('startDate')) {
+				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
+			}
+			else
+			{
+				document.location = 'main%20page%20v1%204-10-14.html';
+			}
+		};
+		
+		//Creates/Saves task
+		$("#btnSave").click(function() {
+			$("input").css('box-shadow', 'none');
+			
+			var valid = true;
+			
+			if (isBlank($('#taskTitle').val())) { 
+				$("#taskTitle").css('box-shadow', '0 0 5px #ff7878');
+				valid = false;
+			}
+							
+			if (!$('#datepicker').val()) { 
+				$("#datepicker").css('box-shadow', '0 0 5px #ff7878');
+				valid = false;
+				//I'm assuming the user isn't trying to fuck stuff up, so assuming date is valid
+			}
+			
+			if (!valid) {
+				return;
+			}
+		
+			var reminders = new Array();			
+			$(".reminder").each(function(index) {
+				reminders.push($(this).val());
+			});
+		
+			if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
+				task = d.getTask($.getUrlVar('id'));
+				d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);
+			}
+			else {
+				d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), $('#reward').val(), reminders, $('#details').val(), callback);					
+			}
+		});
+
+		//Back button clicked. Should ideally display dialog box warning user that he's discarding his changes (if he made any)
+		$("#btnBack").click(callback);
+
+		//Add new reminder button clicked
+		$("#btnNewReminder").click(addNewReminder);
+		
+		$("#details").width($("#formLabels").width() + $("#taskTitle").width() + 6);
+	}
+	
+	$(document).ready(function() {
 		d = new Data(doneLoading);
 	});
-	
-	
+		
 	$(function() {
 		var name = $( "#name" ),
 		  email = $( "#email" ),
@@ -327,54 +273,38 @@
 </head>
 
 <body>
-	<div class="logo">Do.It</div>
-    <h1 id='title'>Create Task</h1>
-    <button type="button" class="back_button" id='btnBack'>Back</button>
+	<div id="top">
+		<div class="logo">Do.It</div>
+		<h1 id='title'>Create Task</h1>
+		<button type="button" class="back_button" id='btnBack'>Back</button>
 
-    <button type="button" class="save_button" id='btnSave'>Save</button>
+		<button type="button" class="save_button" id='btnSave'>Save</button>
+		<hr></hr>
+	</div>	
 
-	<hr></hr>
-
-    <table id='table'>
-        <tr>
-            <td><span class="container"><i class="fa fa-asterisk"></i>Task: </span></td>
-            <td><input type="text" name="taskTitle" id="taskTitle"></td>
-        </tr>
-
-        <tr>
-            <td><span class="container"><i class="fa fa-asterisk"></i>Deadline: </span></td>
-            <td><input type="text" id="datepicker"></td>
-        </tr>
-
-		<tr>
-            <td>Repeat: </td>
-            <td class="repeat_td" >
-				<input type="checkbox" id="checkAddress" onclick="checkAddress(this)" checked="checked" autocomplete="off" />
-				<p size=3 id= "checkText" style="display:inline;font-size:16px">daily</p>
-			</td>
-        </tr>
-
-        <tr>
-            <td>Assigned To: </td>
-            <td><input type="text" name="assigned" id="assigned"></td>
-        </tr>
-
-        <tr>
-            <td>Reward ($):</td>
-            <td><input type="text" name="reward" id="reward"></td>
-        </tr>
-        <tr id="reminderRow0">
-            <td class="firstCol">Reminders:</td>
-			<td class="no_reminder">No reminders set</td>
-        </tr>
-		<tr>
-			<td></td>
-			<td><button type="button" class=button" id='btnNewReminder'>Add New Reminder</button></td>
-		</tr>
-    </table>
-
-    Details: <br>
-    <textarea rows="4" cols="50" placeholder="Enter details here..." id="details"></textarea>
+	<div id='form'>
+		<div id='formLabels'>
+			<div class="container formRow"><i class="fa fa-asterisk"></i>Task: </div>
+			<div class="container formRow"><i class="fa fa-asterisk"></i>Deadline: </div>
+			<div class="formRow">Repeat: </div>
+			<div class="formRow">Assigned To: </div>		
+			<div class="formRow">Reward ($):</div>		
+			<div class="formRow">Reminders: </div>		
+		</div>
+		<div id='formFields'>
+			<div class="formRow"><input type="text" name="taskTitle" id="taskTitle"></div>
+			<div class="formRow"><input type="text" id="datepicker"></div>
+			<div class="formRow"><input type="checkbox" id="checkAddress" onclick="checkAddress(this)" checked="checked" autocomplete="off"/><p size=3 id="checkText" style="display:inline">daily</p></div>
+			<div class="formRow"><input type="text" name="assigned" id="assigned"></div>
+			<div class="formRow"><input type="text" name="reward" id="reward"></div>
+			<div class="formRow" id="no_reminder_div"><span class="no_reminder">No reminders set</span></div>
+			<div class="formRow newReminderDiv"><button type="button" class=button" id='btnNewReminder'>Add New Reminder</button></div>
+		</div>
+		<div id='detailsDiv'>
+			<div>Details:</div>
+			<textarea rows="4" placeholder="Enter details here..." id="details"></textarea>
+		</div>
+	</div>
 	
 	<div id="dialog-form" title="Repeat Details">
 	  <p class="validateTips">All form fields are required.</p>

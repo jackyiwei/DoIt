@@ -8,19 +8,10 @@ body{
    font-size: 20px;
 }
 
-td{
-	padding-right: 15px;
-	padding-bottom: 5px;
-}
-
 hr{
 	position: absolute;
 	left: 0px;
 	width: 100%;
-}
-
-table{
-	margin-top: 20px;
 }
 
 .logo {
@@ -116,4 +107,23 @@ table{
 	border: 1px solid #FFAD33;
 	
 	display: initial;
+}
+
+#form {
+	margin-top: 20px;
+	display: table;
+}
+
+#formLabels {
+	vertical-align: top;
+	display: inline-block;
+}
+
+#formFields {
+	vertical-align: top;
+	display: inline-block;
+}
+
+.formRow{
+	height: 25px;
 }
