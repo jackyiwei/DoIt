@@ -1,5 +1,5 @@
 html{
-	background-color: #eee;
+	background-color: #eeeeff;
 	font-family: "Trebuchet MS";
 	color: black;
 }
@@ -8,19 +8,10 @@ body{
    font-size: 20px;
 }
 
-td{
-	padding-right: 15px;
-	padding-bottom: 5px;
-}
-
 hr{
 	position: absolute;
 	left: 0px;
 	width: 100%;
-}
-
-table{
-	margin-top: 20px;
 }
 
 .logo {
@@ -42,10 +33,6 @@ table{
 	height: 30px;
 	width: 90px;
 	margin-bottom: 10px;
-}
-
-.deleteReminder{
-	cursor: pointer;
 }
 
 .reminder{
@@ -116,4 +103,27 @@ table{
 	border: 1px solid #FFAD33;
 	
 	display: initial;
+}
+
+#form {
+	margin-top: 20px;
+	display: table;
+}
+
+#formLabels {
+	vertical-align: top;
+	display: inline-block;
+}
+
+#formFields {
+	vertical-align: top;
+	display: inline-block;
+}
+
+.formRow{
+	height: 25px;
+}
+
+#assigned {
+	text-transform: capitalize;
 }
