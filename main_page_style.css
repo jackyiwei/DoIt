@@ -20,10 +20,6 @@ span {
 	color: black;
 }
 
-.topTable{
-	width: 100%;
-}
-
 /* Makes button position happen */
 .top_level {
 	padding-top: 10px;
@@ -109,6 +105,7 @@ span {
 	overflow: hidden;
 	white-space: nowrap;
 }
+
 /* div containing date and reward*/
 .task_details{
 	padding-left: 0px;
@@ -117,12 +114,14 @@ span {
 	overflow: hidden;
 	white-space: nowrap;
 }
+
 /* describe date*/
 .task_date {
 	display: inline-block;
 	width: 80%;
 	text-align: left;
 }
+
 /* describe reward*/
 .task_reward {
 	display: inline-block;
@@ -137,6 +136,7 @@ span {
 	color: black;
 }
 
+/* "Did.It" for completed tasks */
 .done {
 	margin-top:3px;
 	z-index:998;

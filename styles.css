@@ -35,10 +35,6 @@ hr{
 	margin-bottom: 10px;
 }
 
-.deleteReminder{
-	cursor: pointer;
-}
-
 .reminder{
 	width: 3.5em;
 }
