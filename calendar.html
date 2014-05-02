@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Calendar View</title>
+	<title>Do.It</title>
 
 	<script type="text/javascript" src="data.js"></script>
    
@@ -13,6 +13,10 @@
 	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 
 
+	<link href='http://fonts.googleapis.com/css?family=Fredericka the Great' rel='stylesheet' type='text/css'>	
+    <link type="text/css" href="main_page_style.css" rel="stylesheet" />
+	<link type="text/css" href="main_page_buttons.css" rel="stylesheet" />
+	
     <script type="text/javascript" charset="utf-8">
 	function init() {
 		scheduler.config.multi_day = true;
@@ -34,18 +38,37 @@
 
 
 <body onload = "init();">
-<div id="scheduler_here" class="dhx_cal_container" style='position: absolute; top: 40px; bottom: 20px; width: 90%; padding: 20px;'>
-    <div class="dhx_cal_navline">
-        <div class="dhx_cal_prev_button">&nbsp;</div>
-        <div class="dhx_cal_next_button">&nbsp;</div>
-        <div class="dhx_cal_today_button"></div>
-        <div class="dhx_cal_date"></div>
-        <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-        <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-        <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-    </div>
-    <div class="dhx_cal_header"></div>
-    <div class="dhx_cal_data"></div>
-</div>
+	<div class="top_level">
+		<div class="controls">
+			<button class="create_task_button" id="Create_Task_Button">Create Task</button>			
+			<button class="calendar_button_today" id="Calendar_Button_Today">Today</button>
+			<button class="calendar_button" id="Calendar_Button_Left"><</button>
+			<button class="calendar_button" id="Calendar_Button_Right">></button>
+			<div class="calendar_date_text">April 13-19, 2014</div>
+		</div>
+		<div class="logo">
+			Do.It
+			<br>
+			<button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
+			<button class="month_button" id="Month_Button">Month View</button>			
+		</div>
+	</div>	
+
+	<hr></hr>
+
+
+	<div id="scheduler_here" class="dhx_cal_container" style='position: absolute; top: 200px; bottom: 20px; width: 90%; padding: 20px;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header"></div>
+		<div class="dhx_cal_data"></div>
+	</div>
 </body>
 </html>

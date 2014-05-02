@@ -43,9 +43,23 @@ button:active {
 
 /* Makes the correct response line appear in blue */
 .create_task_button {
-	height:75px;
+	display: inline-block;
+	height:30px;
 	width:200px;
-	font-size: 25px;
+	font-size: 20px;
+}
+
+.agenda_button {
+	display: inline-block;
+	height: 30px;
+	font-size: 18px;
+}
+
+.month_button {
+	display: inline-block;
+	height: 30px;
+	
+	font-size: 18px;
 }
 
 .calendar_button {
@@ -54,10 +68,11 @@ button:active {
 	width: 45px;
 	font-size: 18px;
 }
+
 .calendar_button_today {
 	display: inline-block;
 	height: 30px;
 	width: 80px;
-	font-size: 18px;
+	font-size: 20px;
 	text-align: center;
 }
