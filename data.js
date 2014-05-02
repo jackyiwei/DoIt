@@ -51,7 +51,7 @@ var Data = function(callback) {
 	
 	//Returns the index of task with given id in tasks array, or -1 if not found
 	this.getTaskIndex = function(id) {
-		for (var i = 0; i < tasks.length ; i++) {			
+		for (var i = 0; i < tasks.length; i++) {			
 			if (tasks[i].id == id) {
 				return i;
 			}
@@ -62,6 +62,17 @@ var Data = function(callback) {
 	//Returns all tasks
 	this.getAllTasks = function() {		
 		return tasks;
+	}
+	
+	this.getAllTasksSimple = function() {
+		var simpleTasks = new Array();
+		for (var i = 0; i < tasks.length ; i++) {		
+			var date = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
+			var simpleTask = {text: tasks[i].assigned + ': ' + tasks[i].name, start_date: date, end_date: date};
+			simpleTasks.push(simpleTask);
+		}
+		
+		return simpleTasks;
 	}
 	
 	//Updates a task given its id and saves afterwards. Returns the task if it was found, otherwise null. Calls "callback" when done saving

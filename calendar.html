@@ -3,25 +3,30 @@
 <head>
    <title>Calendar View</title>
 
+	<script type="text/javascript" src="data.js"></script>
+   
     <script src="dhtmlxScheduler/sources/dhtmlxscheduler.js" type="text/javascript"></script>
     <link rel="stylesheet" href="dhtmlxScheduler/sources/dhtmlxscheduler.css" type="text/css">
+	
+	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.10.4 3.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 
 
     <script type="text/javascript" charset="utf-8">
 	function init() {
-
-
 		scheduler.config.multi_day = true;
 
 		scheduler.config.xml_date="%Y-%m-%d %H:%i";
 		scheduler.init('scheduler_here',new Date,"month");
 
+		d = new Data(doneLoading);
 
-
-        	}
-
-
-
+	}
+	
+	function doneLoading() {
+		scheduler.parse(d.getAllTasksSimple(),"json");
+	}
     </script>
 
 </head>
