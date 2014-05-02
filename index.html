@@ -329,6 +329,12 @@
 				document.getElementById('day_week_Text').innerHTML = 'days';
 			}
 	}
+	$(function() {
+		$( "#end_date" ).datepicker({
+			minDate: 0,
+			onSelect: function(date) {validateDeadline()}
+	});
+  });
 
 </script>
 
