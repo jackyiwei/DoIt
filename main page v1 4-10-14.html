@@ -13,14 +13,18 @@
     <title>Do.It</title>
     <link type="text/css" href="main_page_style.css" rel="stylesheet" />
 	<link type="text/css" href="main_page_buttons.css" rel="stylesheet" />
-
+	
 	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="external_js/jquery-ui-1.10.4.custom.js"></script>
 	<script type="text/javascript" src="data.js"></script>
 	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 
     <script type="text/javascript" src="jquery-ui-1.10.4 3.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+	
+    <link rel="stylesheet" type ="text/css" href="jquery-ui-1.10.4 3.custom/css/redmond/jquery-ui-1.10.4.custom.min.css">
 
+	<script type="text/javascript" src="external_js/jquery-outside.js"></script>
+	
 	<script type="text/javascript">
 		$.extend({
 			getUrlVars : function() {
@@ -165,7 +169,22 @@
 					
 					setColorForTask(tasks[i].id);
 				}
-
+				
+				$("#details_dialog").dialog({
+					autoOpen: false,
+					height: 300,
+					width: 600,
+					modal: true,
+					close: function() {
+						$("#details_dialog").unbind('clickoutside');
+					},
+					open: function() {
+						$("#details_dialog").bind('clickoutside',function(){
+							$("#details_dialog").dialog('close');
+						});
+					}
+				});							
+				
 				//Event handlers for clicking on menu items
 				$('.fa.fa-file-text-o').click(detailsClick);
 				$('.fa.fa-minus-square-o').click(changeDoneClicked);
@@ -237,7 +256,8 @@
 		
 		//Details button of a task was clicked
 		function detailsClick(e) {
-			console.log('do something here');
+			$("#details_dialog").dialog("open");
+			return false;
 		}
 		
 		//Change done status of task
@@ -323,5 +343,45 @@
 		</tr>
 	</table>
 
+	
+	<div id="details_dialog" title="Task Details">
+	  <p class="validateTips">All form fields are required.</p>
+		<table id="form_table">
+			<tr>
+				<td>
+					<label for="repeat_day_week">Repeat: </label>
+				</td>
+				<td>
+					<select id="dropdown_type" onchange="dayWeekChange()">
+						<option value="daily">Daily</option>
+						<option value="weekly">Weekly</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="Number_of">Repeat every: </label>
+				</td>
+				<td>
+					<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all"><p size=3 id="day_week_Text" style="display:inline"></p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="end_date">Ends: </label>
+				</td>
+				<td>
+					<input type="radio" name="end_date" value="never">Never</input>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="radio" name="end_date" value="date">Ends on: </input>
+					<input type="text" name="end_date" id="end_date" value="" class="text ui-widget-content ui-corner-all">
+				</td>
+			</tr>
+		</table>
+	</div>
   </body>
 </html>
