@@ -118,15 +118,15 @@ span {
 /* describe date*/
 .task_date {
 	display: inline-block;
-	width: 80%;
+	float: left;
 	text-align: left;
 }
 
 /* describe reward*/
 .task_reward {
-	display: inline-block;
-	width: 18%;
+	display: inline-block;	
 	text-align: right;
+	float: right
 }
 
 /* format a kid's name */
