@@ -273,7 +273,6 @@
 		  buttons: {
 			Done: function() {
 			  if ($("#checkAddress")[0].checked) {
-				console.log("is checked");
 				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 				document.getElementById('checkText').innerHTML = document.getElementsByTagName("option") [daily_weekly].value;
 			  } 
@@ -286,6 +285,16 @@
 		  },
 		  close: function() {
 			allFields.val( "" ).removeClass( "ui-state-error" );
+		  },
+		  focus: function(){
+			var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
+			if (daily_weekly){
+				document.getElementById('day_week_Text').innerHTML = 'weeks';
+			}
+			else{
+				document.getElementById('day_week_Text').innerHTML = 'days';
+			}
+			
 		  }
 		});
 	});
@@ -296,6 +305,15 @@
 		else{
 			document.getElementById('checkText').innerHTML = '';
 		}
+	}
+	function dayWeekChange(){
+		var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
+			if (daily_weekly){
+				document.getElementById('day_week_Text').innerHTML = 'weeks';
+			}
+			else{
+				document.getElementById('day_week_Text').innerHTML = 'days';
+			}
 	}
 
 </script>
@@ -348,7 +366,7 @@
 					<label for="repeat_day_week">Repeat: </label>
 				</td>
 				<td>
-					<select id="dropdown_type">
+					<select id="dropdown_type" onchange="dayWeekChange()">
 						<option value="daily">Daily</option>
 						<option value="weekly">Weekly</option>
 					</select>
@@ -359,7 +377,7 @@
 					<label for="Number_of">Repeat every: </label>
 				</td>
 				<td>
-					<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all"> weeks
+					<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all"><p size=3 id="day_week_Text" style="display:inline"></p>
 				</td>
 			</tr>
 			<tr>
