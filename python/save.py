@@ -14,6 +14,9 @@ index = text.index('"tasks":')
 taskText = text[index+9:]
 tasks = taskText.split('}')
 
+#used to handle repeats
+prev = None
+
 for x in tasks:
     #ignores short non-task strings (from the end mostly)
     if len(x) > 5:
@@ -23,8 +26,13 @@ for x in tasks:
         #append } to end to make it a valid JS object
         x += '}'
 
-        #find task id
-        start = x.index('"id":') + 5
+        #find task id    
+        try:
+            start = x.index('"id":') + 5
+        except:
+            #handles repeats
+            d[prev] += "," + x
+            continue
         end = x.index(',', start)
         taskId = int(x[start:end])
         
@@ -32,6 +40,9 @@ for x in tasks:
 
         #for nextTaskId
         maxInt = max(maxInt, taskId + 1)
+
+        #used to handle repeats
+        prev = taskId
 
 file.close()
 

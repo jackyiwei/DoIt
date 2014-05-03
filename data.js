@@ -28,7 +28,7 @@ var Data = function(callback) {
 	//Asynchronously saves all data to disk and calls "callback" when done
 	this.saveTask = function(task, callback) {	
 		var encoded = $.toJSON(task);
-
+		
 		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=' + encoded)
 		
 		.always(function() {

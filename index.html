@@ -86,10 +86,14 @@
 		
 		if ($.getUrlVar('id')) {
 			task = d.getTask($.getUrlVar('id'));
-			if (task) {
-				taskRepeat = task.repeat
+			if (task) {							
 				//We're in edit task mode
 				$('#title').html('Edit Task');
+				
+				taskRepeat = task.repeat				
+				if (taskRepeat) {
+					setRepeatText()
+				}
 
 				document.getElementById('taskTitle').value = task.name;
 
@@ -151,7 +155,7 @@
 
 	function validateAssigned() {
 		var val = $('#assigned').val();
-		if ($.inArray(val, d.getKids()) > 0 || isBlank(val)) {
+		if ($.inArray(val, d.getKids()) > -1 || isBlank(val)) {
 			$('#assigned')[0].setCustomValidity('');
 			return true;
 		}
@@ -210,19 +214,17 @@
 			return false;
 		}		
 		
-		console.log("repeat: " + taskRepeat);
-		
 		var reminders = new Array();
 		$(".reminder").each(function(index) {
 			reminders.push($(this).val());
 		});			
-
+		
 		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 			task = d.getTask($.getUrlVar('id'));
-			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
+			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
 		else {
-			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
+			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
 
 		//This just makes the form not actually submit because we only want the "callback" function to redirect us
@@ -331,11 +333,13 @@
 	});
 	
 	function setRepeatText() {
+		var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	
 		var t = "Repeat every " + taskRepeat.frequency + " ";
 		if (taskRepeat.days) {
 			t += "weeks on ";
 			for (var i = 0; i < taskRepeat.days.length; i++) {
-				t += taskRepeat.days[i] + ', ';
+				t += days[taskRepeat.days[i]] + ', ';
 			}
 			t = t.substring(0, t.length - 2);
 		}
