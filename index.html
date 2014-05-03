@@ -82,9 +82,12 @@
 	}
 
 	function doneLoading() {
+		taskRepeat = null;
+		
 		if ($.getUrlVar('id')) {
 			task = d.getTask($.getUrlVar('id'));
 			if (task) {
+				taskRepeat = task.repeat
 				//We're in edit task mode
 				$('#title').html('Edit Task');
 
@@ -205,22 +208,24 @@
 	function submitForm() {
 		if (!validateForm()) {
 			return false;
-		}
-
+		}		
+		
+		console.log("repeat: " + taskRepeat);
+		
 		var reminders = new Array();
 		$(".reminder").each(function(index) {
 			reminders.push($(this).val());
-		});
+		});			
 
 		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 			task = d.getTask($.getUrlVar('id'));
-			d.updateTask(task.id, $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
+			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), task.repeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
 		else {
 			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
 
-		//This just makes the form not actually submit
+		//This just makes the form not actually submit because we only want the "callback" function to redirect us
 		return false;
 	}
 
@@ -229,6 +234,7 @@
 	});
 
 	$(function() {
+		/*
 		var name = $( "#name" ),
 		  email = $( "#email" ),
 		  password = $( "#password" ),
@@ -263,41 +269,87 @@
 		  } else {
 			return true;
 		  }
-		}
+		}*/
 
-		$( "#dialog-form" ).dialog({
-		  autoOpen: false,
-		  height: 700,
-		  width: 600,
-		  modal: true,
-		  buttons: {
-			Done: function() {
-			  if ($("#checkAddress")[0].checked) {
-				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
-				document.getElementById('checkText').innerHTML = document.getElementsByTagName("option") [daily_weekly].value;
-			  } 
-			  
-		      $( this ).dialog( "close" );
+		$("#dialog-form").dialog({
+			autoOpen: false,
+			height: 700,
+			width: 600,
+			modal: true,
+			buttons: {
+				Done: function() {
+					if ($("#repeatCheck")[0].checked) {
+						var daily_weekly = $('#dropdown_type').val();				
+						
+						taskRepeat = {};
+						
+						//Daily/Weekly
+						taskRepeat.type = daily_weekly;
+						
+						//How often to repeat
+						taskRepeat.frequency = $('#days_weeks').val();
+						
+						//If Weekly then get days it repeats on
+						if (taskRepeat.type.toLowerCase() == 'weekly') {
+							taskRepeat.days = new Array();
+							$(".repeatDay").each(function(index) {
+								if ($(this).is(':checked')) {
+									taskRepeat.days.push($(this).val());
+								}
+							});
+						}
+						
+						//Ends: Never/Ends on [date]
+						taskRepeat.end = $('input[type="radio"]:checked').val();
+						
+						//If "Ends on" then get date
+						if (taskRepeat.end == 'date') {
+							taskRepeat.endDate = new Date($('#end_date').val())
+						}
+						
+						setRepeatText();
+					}
+					$(this).dialog("close");
 			},
-			Cancel: function() {
-			  $( this ).dialog( "close" );
+				Cancel: function() {
+				  $(this).dialog("close");
+				}
+			},
+			close: function() {
+				//allFields.val("").removeClass("ui-state-error");
+			},
+			focus: function(){
+				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
+				if (daily_weekly){
+					$('#day_week_Text').html('weeks');
+				}
+				else {
+					$('#day_week_Text').html('days');
+				}
 			}
-		  },
-		  close: function() {
-			allFields.val( "" ).removeClass( "ui-state-error" );
-		  },
-		  focus: function(){
-			var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
-			if (daily_weekly){
-				document.getElementById('day_week_Text').innerHTML = 'weeks';
-			}
-			else{
-				document.getElementById('day_week_Text').innerHTML = 'days';
-			}
-			
-		  }
 		});
 	});
+	
+	function setRepeatText() {
+		var t = "Repeat every " + taskRepeat.frequency + " ";
+		if (taskRepeat.days) {
+			t += "weeks on ";
+			for (var i = 0; i < taskRepeat.days.length; i++) {
+				t += taskRepeat.days[i] + ', ';
+			}
+			t = t.substring(0, t.length - 2);
+		}
+		else {
+			t += "days"
+		}
+		
+		if (taskRepeat.endDate) {
+			t += ' until ' + taskRepeat.endDate /*.format("mm/dd/yy") */;
+		}
+		
+		$('#checkText').html(t);
+	}
+	
 	function openRepeatDialog(checkbox){
 		if (checkbox.checked){
 			$("#dialog-form").dialog("open");
@@ -306,7 +358,7 @@
 			document.getElementById('checkText').innerHTML = '';
 		}
 	}
-	function dayWeekChange(){
+	function dayWeekChange(){	
 		var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 			if (daily_weekly){
 				var table = document.getElementById("form_table");
@@ -314,20 +366,19 @@
 				var cell1 = row.insertCell(0);
 				var cell2 = row.insertCell(1);
 				cell1.innerHTML = '<label for="days_of_week">Repeat on: </label>';
-				cell2.innerHTML= '<input type="checkbox" name="Sunday" id="Sunday"> S ' +
-					'<input type="checkbox" name="Monday" id="Monday"> M ' +
-					'<input type="checkbox" name="Tuesday" id="Tuesday"> T ' +
-					'<input type="checkbox" name="Wednesday" id="Wednesday"> W ' +
-					'<input type="checkbox" name="Thursday" id="Thursday"> T ' +
-					'<input type="checkbox" name="Friday" id="Friday"> F ' +
-					'<input type="checkbox" name="Saturday" id="Saturday"> S';
-				document.getElementById('day_week_Text').innerHTML = 'weeks';
-				
+				cell2.innerHTML= '<input class="repeatDay" type="checkbox" name="Sunday" id="Sunday" value="0"> S ' +
+					'<input class="repeatDay" type="checkbox" name="Monday" id="Monday" value="1"> M ' +
+					'<input class="repeatDay" type="checkbox" name="Tuesday" id="Tuesday" value="2"> T ' +
+					'<input class="repeatDay" type="checkbox" name="Wednesday" id="Wednesday" value="3"> W ' +
+					'<input class="repeatDay" type="checkbox" name="Thursday" id="Thursday" value="4"> T ' +
+					'<input class="repeatDay" type="checkbox" name="Friday" id="Friday" value="5"> F ' +
+					'<input class="repeatDay" type="checkbox" name="Saturday" id="Saturday" value="6"> S';
+					$('#day_week_Text').html('weeks');
 			}
 			else{
 				document.getElementById("form_table").deleteRow(2);
-				document.getElementById('day_week_Text').innerHTML = 'days';
-			}
+				$('#day_week_Text').html('days');
+			}		
 	}
 	$(function() {
 		$( "#end_date" ).datepicker({
@@ -363,7 +414,7 @@
 			<div id='formFields'>
 				<div class="formRow"><input type="text" name="taskTitle" id="taskTitle"></div>
 				<div class="formRow"><input type="text" id="datepicker"></div>
-				<div class="formRow"><input type="checkbox" id="checkAddress" onclick="openRepeatDialog(this)" autocomplete="off"/><p size=3 id="checkText" style="display:inline"></p></div>
+				<div class="formRow"><input type="checkbox" id="repeatCheck" onclick="openRepeatDialog(this)" autocomplete="off"/><p size=3 id="checkText" style="display:inline"></p></div>
 				<div class="formRow"><input type="text" name="assigned" id="assigned"></div>
 				<div class="formRow"><input type="text" name="reward" id="reward"></div>
 				<div class="formRow" id="no_reminder_div"><span class="no_reminder">No reminders set</span></div>
@@ -405,7 +456,7 @@
 					<label for="end_date">Ends: </label>
 				</td>
 				<td>
-					<input type="radio" name="end_date" value="never">Never</input>
+					<input type="radio" name="end_date" value="never" checked>Never</input>
 				</td>
 			</tr>
 			<tr>
