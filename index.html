@@ -209,10 +209,12 @@
 		return valid;
 	}
 
-	function submitForm() {
+	function submitForm(e) {
 		if (!validateForm()) {
 			return false;
 		}		
+
+		e.preventDefault();
 		
 		var reminders = new Array();
 		$(".reminder").each(function(index) {
@@ -226,9 +228,6 @@
 		else {
 			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
 		}
-
-		//This just makes the form not actually submit because we only want the "callback" function to redirect us
-		return false;
 	}
 
 	$(document).ready(function() {

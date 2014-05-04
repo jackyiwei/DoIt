@@ -35,7 +35,7 @@ var Data = function(callback) {
 			if (callback) {
 				callback();
 			}
-		});			
+		});	
 	}
 
 	//Returns nextTaskId
@@ -129,8 +129,10 @@ var Data = function(callback) {
 		
 		nextTaskId++;
 		tasks.push(newTask);
-		
+				
 		if (repeat) {			
+			tasksToSave = new Array();
+		
 			//Set the "endDate" to be the earliest of the actual end date or the end of this year.
 			endDate = new Date(2015, 0, 1);
 			if (repeat.endDate && repeat.endDate < endDate) {
@@ -142,13 +144,13 @@ var Data = function(callback) {
 				
 				taskDate = date;
 				while (taskDate <= endDate) {
-					this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null);
+					tasksToSave.push(this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null));
 					taskDate.setDate(taskDate.getDate() + parseInt(repeat.frequency));
 				}
 			}
 			else {
 				//Weekly repeat
-				console.log(repeat);
+				
 				startOfWeek = new Date();
 				startOfWeek.setDate(date.getDate() - date.getDay());
 				
@@ -159,15 +161,38 @@ var Data = function(callback) {
 					
 					while (taskDate <= endDate) {
 						if (taskDate >= date) {
-							this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null);						
+							tasksToSave.push(this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null));
 						}
 						taskDate.setDate(taskDate.getDate() + (7 * parseInt(repeat.frequency)));
 					}
 				}
 			}
+			
+			//Need to save all tasks in tasksToSave and the current task, and then call "callback"
+			taskToSave = 0;
+			tasksToSave.push(newTask);
+			saveTask = this.saveTask;
+			
+			var func = function myself() {
+				if (taskToSave == tasksToSave.length) {
+					if (callback) {
+						callback();
+					}
+				}
+				else {
+					var myTask = tasksToSave[taskToSave];
+					taskToSave++;					
+					saveTask(myTask, myself);
+				}
+			}
+
+			func();
 		}
 		
-		this.saveTask(newTask, callback);
+		//Don't save "child" tasks, or tasks that have repeat
+		if (!parentId && !repeat) {			
+			this.saveTask(newTask, callback);
+		}
 		
 		return newTask;
 	}
