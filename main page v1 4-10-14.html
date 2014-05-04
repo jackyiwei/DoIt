@@ -110,7 +110,7 @@
 				var tasks = d.getAllTasks();
 				for(var i = 0; i < tasks.length; i++){
 					var taskDate = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
-					if (taskDate < startDate || taskDate > endDate) {
+					if (taskDate < startDate || taskDate > endDate || tasks[i].repeat) {
 						continue;
 					}
 
@@ -287,6 +287,12 @@
 		//Edit button of a task was clicked
 		function editClicked(e) {
 			var id = this.id.substring(4);
+			var task = d.getTask(id);
+			
+			if (task.parentId) {
+				id = task.parentId;
+			}
+			
 			document.location = "index.html?id=" + id + '&startDate=' + startDate.getTime();
 		}
 		

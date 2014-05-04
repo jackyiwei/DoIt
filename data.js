@@ -113,7 +113,7 @@ var Data = function(callback) {
 	}
 	
 	//Creates a new task and saves afterwards. Returns the created task. Calls "callback" when done saving
-	this.createTask = function(name, date, repeat, assigned, reward, reminders, details, callback) {
+	this.createTask = function(name, date, repeat, assigned, reward, reminders, details, parentId, callback) {
 		var newTask = { "id":nextTaskId, 
 						"name":name, 
 						"day":date.getDate(), 
@@ -124,12 +124,51 @@ var Data = function(callback) {
 						"reward":reward, 
 						"reminders": reminders, 
 						"details":details, 
+						"parentId":parentId,
 						"done":false};
 		
 		nextTaskId++;
 		tasks.push(newTask);
 		
-		this.saveTask(newTask, callback);		
+		if (repeat) {			
+			//Set the "endDate" to be the earliest of the actual end date or the end of this year.
+			endDate = new Date(2015, 0, 1);
+			if (repeat.endDate && repeat.endDate < endDate) {
+				endDate = repeat.endDate;
+			}
+			
+			if (repeat.type.toLowerCase() == "daily") {
+				//Daily repeat						
+				
+				taskDate = date;
+				while (taskDate <= endDate) {
+					this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null);
+					taskDate.setDate(taskDate.getDate() + parseInt(repeat.frequency));
+				}
+			}
+			else {
+				//Weekly repeat
+				console.log(repeat);
+				startOfWeek = new Date();
+				startOfWeek.setDate(date.getDate() - date.getDay());
+				
+				for (var i = 0; i < repeat.days.length; i++) {					
+					taskDate = new Date();
+					taskDate.setDate(startOfWeek.getDate() + parseInt(repeat.days[i]));
+					taskDate.setHours(0,0,0,0);
+					
+					while (taskDate <= endDate) {
+						if (taskDate >= date) {
+							this.createTask(name, taskDate, null, assigned, reward, reminders, details, newTask.id, null);						
+						}
+						taskDate.setDate(taskDate.getDate() + (7 * parseInt(repeat.frequency)));
+					}
+				}
+			}
+		}
+		
+		this.saveTask(newTask, callback);
+		
 		return newTask;
 	}
 	
