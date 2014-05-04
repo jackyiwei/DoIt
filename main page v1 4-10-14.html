@@ -306,7 +306,13 @@
 
 			if (task.parentId) {
 				if (confirm('Are you sure you want to delete the task "' + task.name + '"? \nThis will delete all occurences of this task.')) {
-					d.deleteRepeatTasks(task.parentId, function(){window.location.reload();});
+					$("body").css("cursor", "progress");
+					d.deleteRepeatTasks(
+						task.parentId,
+						function() {
+							$("body").css("cursor", "default"); 
+							window.location.reload();
+						});
 				}
 			}
 			else {

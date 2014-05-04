@@ -128,6 +128,7 @@
 		$('.fa.fa-times').click(deleteReminder);
 
 		callback = function() {
+			$("body").css("cursor", "default"); 
 			if ($.getUrlVar('startDate')) {
 				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
 			}
@@ -221,6 +222,7 @@
 			reminders.push($(this).val());
 		});			
 		
+		$("body").css("cursor", "progress");
 		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 			task = d.getTask($.getUrlVar('id'));
 			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
