@@ -101,6 +101,12 @@ var Data = function(callback) {
 		index = this.getTaskIndex(id);		
 		var task = (index > -1) ? tasks.splice(index, 1) : null;
 		
+		this.deleteTaskJSON(task.id, callback);
+		
+		return task;
+	}
+	
+	this.deleteTaskJSON = function(id, callback) {
 		$.getJSON('http://nanu.mit.edu/pythonApp/save.py?data=delete' + id)
 		
 		.always(function() {
@@ -108,8 +114,34 @@ var Data = function(callback) {
 				callback();
 			}
 		});	
+	}
+	
+	//Deletes the task with id=parentId, and all tasks with parentId=parentId. Calls "callback" after deleting all tasks
+	this.deleteRepeatTasks = function(parentId, callback) {
+		tasksToDelete = new Array();
+		for (var i = 0; i < tasks.length; i++) {
+			if (tasks[i].id == parentId || tasks[i].parentId == parentId) {
+				tasksToDelete.push(tasks[i]);
+			}
+		}
 		
-		return task;
+		taskToDelete = 0;
+		deleteTaskJSON = this.deleteTaskJSON;
+		
+		var func = function myself() {
+			if (taskToDelete == tasksToDelete.length) {
+				if (callback) {
+					callback();
+				}
+			}
+			else {
+				var myTask = tasksToDelete[taskToDelete];
+				taskToDelete++;					
+				deleteTaskJSON(myTask.id, myself);
+			}
+		}
+
+		func();
 	}
 	
 	//Creates a new task and saves afterwards. Returns the created task. Calls "callback" when done saving

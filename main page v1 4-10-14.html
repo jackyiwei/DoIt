@@ -302,10 +302,18 @@
 		//Delete button of a task was clicked
 		function deleteClicked(e) {
 			var id = this.id.substring(6);
-			taskName = d.getTask(id).name;
-			if (confirm('Are you sure you want to delete the task "' + taskName + '"?')) {
-				$('#' + id).remove();
-				d.deleteTask(id, null);
+			var task = d.getTask(id);
+
+			if (task.parentId) {
+				if (confirm('Are you sure you want to delete the task "' + task.name + '"? \nThis will delete all occurences of this task.')) {
+					d.deleteRepeatTasks(task.parentId, function(){window.location.reload();});
+				}
+			}
+			else {
+				if (confirm('Are you sure you want to delete the task "' + task.name + '"?')) {
+					$('#' + id).remove();
+					d.deleteTask(id, null);
+				}
 			}
 		}
 	</script>
