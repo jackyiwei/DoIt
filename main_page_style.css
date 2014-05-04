@@ -154,14 +154,14 @@ span {
 
 /* Menu items for tasks */
 .fa {
-	font-size: 0.8em;
+	font-size: 1em;
 	cursor: pointer;
 	position: relative;
 }
 
 /* Menu items for tasks when hovered over */
 .fa:hover {
-	font-size: 1em;
+	font-size: 1.2em;
 }
 
 /* tooltips for task menu items */
