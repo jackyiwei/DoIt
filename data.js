@@ -166,7 +166,7 @@ var Data = function(callback) {
 			tasksToSave = new Array();
 		
 			//Set the "endDate" to be the earliest of the actual end date or the end of this year.
-			endDate = new Date(2015, 0, 1);
+			endDate = new Date(2014, 8, 1);
 			if (repeat.endDate && repeat.endDate < endDate) {
 				endDate = repeat.endDate;
 			}
@@ -263,6 +263,35 @@ var Data = function(callback) {
 		}
 					
 		return task;
+	}
+	
+	//Changes the assignment of all tasks with id=parentId or parentId=parentId. Calls "callback" once done
+	this.changeRepeatAssignment = function(parentId, assigned, callback) {
+		tasksToSave = new Array();
+		for (var i = 0; i < tasks.length; i++) {
+			if (tasks[i].id == parentId || tasks[i].parentId == parentId) {
+				tasks[i].assigned = assigned;
+				tasksToSave.push(tasks[i]);
+			}
+		}
+
+		taskToSave = 0;
+		saveTask = this.saveTask;
+		
+		var func = function myself() {
+			if (taskToSave == tasksToSave.length) {
+				if (callback) {
+					callback();
+				}
+			}
+			else {
+				var myTask = tasksToSave[taskToSave];
+				taskToSave++;					
+				saveTask(myTask, myself);
+			}
+		}
+
+		func();
 	}
 	
 	this.getKids = function() {

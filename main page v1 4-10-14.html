@@ -50,21 +50,35 @@
 
 		//Drop task to column
 		function dropTask(e) {
+			e.preventDefault();
+		
 			target = $(e.target).closest(".task_col")
 			if (target.attr('class') == 'task_col') {
-				//e.preventDefault();
-
 				var data = e.dataTransfer.getData("Text");
-
-				target.append($('#' + data));
 				var assigned = target[0].id.substring(0, target[0].id.length - 4);
 				assigned = (assigned == 'Optional') ? null : assigned; //Set assigned to null if it was 'Optional'
-				d.changeAssignment(data, assigned, null);
+								
+				var task = d.getTask(data);				
+					//Handles repeating tasks only
+				if (task.parentId) {
+					$("body").css("cursor", "progress");
+					d.changeRepeatAssignment(
+						task.parentId,
+						assigned,
+						function() {
+							$("body").css("cursor", "default"); 
+							window.location.reload();
+						});
+				}
+				else {
+					//Handles non-repeating tasks
+					d.changeAssignment(data, assigned, null);
+					target.append($('#' + data));
+				}
 			}
 			else {
 				console.log("if this ever happens, something went wrong!"); //I don't think this should ever happen
-			}
-			e.preventDefault();
+			}			
 		}
 
 		function allowDrop(e) {
