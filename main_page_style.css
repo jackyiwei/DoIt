@@ -197,3 +197,7 @@ span {
 	
 	display: initial;
 }
+
+#taskName {
+	white-space: nowrap;
+}
