@@ -129,8 +129,10 @@
 
 					var task_to_add = '<div class="task" draggable="true" ondragstart="dragTask(event)" id="' + tasks[i].id + '">';
 										
+						task_to_add += '<div class="done">Did.It</div>';
+										
 						/* Div for icons on the left */
-						task_to_add += '<div class="task_left">';
+						task_to_add += '<div class="task_top">';
 							task_to_add += '<div class="menu_item"><i class="fa fa-file-text-o" id="details' +  tasks[i].id + '" ><span class="tooltip">Details</span></i></div>';
 							
 							if (tasks[i].done){
@@ -145,9 +147,9 @@
 						task_to_add += '</div>';
 						/* end of div for icons on the left */
 					
-						task_to_add += '<div class="task_right">';
+						task_to_add += '<div class="task_bottom">';
 						
-							task_to_add += '<div class="done">Did.It</div>';
+							
 							
 							task_to_add += '<div class="task_text">' + tasks[i].name + '</div>';	
 

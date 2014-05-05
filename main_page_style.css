@@ -70,51 +70,51 @@ span {
 /* Individual task */
 .task {
 	position:relative;
-	padding-bottom: 0px;	
-	padding-right: 15px;
+	padding-bottom: 0px;
 	margin-bottom: 10px;
 	vertical-align: bottom;
 	color:black;
-	height:120px;
+	height:105px;
 	border:2px solid #a1a1a1;
 	border-radius:25px;	
 	cursor: -webkit-grab; cursor: -moz-grab;
 }
 
-/* left part of task (the menu) */
-.task_left{
-	margin-top: 3px;
-	margin-left: 15px;
-    float:left;
-	width: 5px;
-	height: 100%;
+/* top part of task (the menu) */
+.task_top{
+	width: 100%;
+	float: top;
+	text-align: center;
 }
 
+/* Div for each task menu item */
 .menu_item {
-	height: 25%;
+	display: inline-block;
+	width: 15%;
 }
 
-/* Right part of a task (everything besides the menu) */
-.task_right{
-	float: right;
+/* Bottom part of a task (task name + details) */
+.task_bottom {	
 	margin-top: 10px;
-	width: 90%;
+	width: 100%;	
 }
 
 /* Name of task*/
 .task_text {
-	font-size: 30px;
-	padding-top: 25px;
-	padding-bottom: 20px;
+	font-size: 30px;	
+	padding-bottom: 5px;
 	overflow: hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap;
+	
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 /* div containing date and reward*/
 .task_details{
-	padding-left: 0px;
-	padding-right: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	font-size: 20px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -143,7 +143,7 @@ span {
 
 /* "Did.It" for completed tasks */
 .done {
-	margin-top:3px;
+	margin-top:15px;
 	z-index:998;
 	background:#89E894;
 	color: white;
@@ -165,7 +165,7 @@ span {
 
 /* Menu items for tasks when hovered over */
 .fa:hover {
-	font-size: 1.2em;
+	font-size: 1.25em;
 }
 
 /* tooltips for task menu items */
