@@ -128,7 +128,6 @@
 		$('.fa.fa-times').click(deleteReminder);
 
 		callback = function() {
-			$("body").css("cursor", "default"); 
 			if ($.getUrlVar('startDate')) {
 				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
 			}
@@ -198,6 +197,15 @@
 			return false;
 		}
 	}
+	
+	function validateDaysWeeks() {
+		if ($.isNumeric($('#days_weeks').val())){
+			$('#days_weeks')[0].setCustomValidity('');
+		}
+		else {
+			$('days_weeks')[0].setCustomValidity('Enter a number');
+		}
+	}
 
 	function validateForm() {
 		var valid = true;
@@ -210,26 +218,26 @@
 		return valid;
 	}
 
-	function submitForm(e) {
+	function submitForm() {
 		if (!validateForm()) {
 			return false;
 		}		
-
-		e.preventDefault();
 		
 		var reminders = new Array();
 		$(".reminder").each(function(index) {
 			reminders.push($(this).val());
 		});			
 		
-		$("body").css("cursor", "progress");
 		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
 			task = d.getTask($.getUrlVar('id'));
 			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
 		else {
-			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
+			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
 		}
+
+		//This just makes the form not actually submit because we only want the "callback" function to redirect us
+		return false;
 	}
 
 	$(document).ready(function() {
@@ -276,8 +284,8 @@
 
 		$("#dialog-form").dialog({
 			autoOpen: false,
-			height: 700,
-			width: 600,
+			height: 400,
+			width: 540,
 			modal: true,
 			buttons: {
 				Done: function() {
@@ -324,10 +332,10 @@
 			focus: function(){
 				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 				if (daily_weekly){
-					$('#day_week_Text').html('weeks');
+					$('#day_week_Text').html(' weeks');
 				}
 				else {
-					$('#day_week_Text').html('days');
+					$('#day_week_Text').html(' days');
 				}
 			}
 		});
@@ -370,7 +378,7 @@
 				var row = table.insertRow(2);
 				var cell1 = row.insertCell(0);
 				var cell2 = row.insertCell(1);
-				cell1.innerHTML = '<label for="days_of_week">Repeat on: </label>';
+				cell1.innerHTML = '<label class="container" for="days_of_week"><i class="fa fa-asterisk"></i>Repeat on: </label>';
 				cell2.innerHTML= '<input class="repeatDay" type="checkbox" name="Sunday" id="Sunday" value="0"> S ' +
 					'<input class="repeatDay" type="checkbox" name="Monday" id="Monday" value="1"> M ' +
 					'<input class="repeatDay" type="checkbox" name="Tuesday" id="Tuesday" value="2"> T ' +
@@ -378,11 +386,25 @@
 					'<input class="repeatDay" type="checkbox" name="Thursday" id="Thursday" value="4"> T ' +
 					'<input class="repeatDay" type="checkbox" name="Friday" id="Friday" value="5"> F ' +
 					'<input class="repeatDay" type="checkbox" name="Saturday" id="Saturday" value="6"> S';
-					$('#day_week_Text').html('weeks');
+					$('#day_week_Text').html(' weeks');
+				var weekday = new Array();
+				weekday[0] = 'Sunday';
+				weekday[1] = 'Monday';
+				weekday[2] = 'Tuesday';
+				weekday[3] = 'Wednesday';
+				weekday[4] = 'Thursday';
+				weekday[5] = 'Friday';
+				weekday[6] = 'Saturday';
+				if (new Date($('#datepicker').val()).getDay()){
+					var dayOfWeek = weekday[new Date($('#datepicker').val()).getDay()];
+					$('#' + dayOfWeek).prop('checked', true);
+				}
+				
+				
 			}
 			else{
 				document.getElementById("form_table").deleteRow(2);
-				$('#day_week_Text').html('days');
+				$('#day_week_Text').html(' days');
 			}		
 	}
 	$(function() {
@@ -433,8 +455,7 @@
 	</form>
 
 	<div id="dialog-form" title="Repeat Details">
-	  <p class="validateTips">All form fields are required.</p>
-
+	<br>
 	  <form>
 		<table id="form_table">
 			<tr>
@@ -449,8 +470,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<label for="Number_of">Repeat every: </label>
+				<td class="container">
+					<label for="Number_of"><i class="fa fa-asterisk"></i>Repeat every: </label>
 				</td>
 				<td>
 					<input type="text" name="days_weeks" id="days_weeks" value="" class="text ui-widget-content ui-corner-all"><p size=3 id="day_week_Text" style="display:inline"></p>
