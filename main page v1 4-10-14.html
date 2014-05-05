@@ -131,17 +131,17 @@
 										
 						/* Div for icons on the left */
 						task_to_add += '<div class="task_left">';
-							task_to_add += '<i class="fa fa-file-text-o" id="details' +  tasks[i].id + '" ><span class="tooltip">Details</span></i>';
+							task_to_add += '<div class="menu_item"><i class="fa fa-file-text-o" id="details' +  tasks[i].id + '" ><span class="tooltip">Details</span></i></div>';
 							
 							if (tasks[i].done){
-								task_to_add += '<i class="fa fa-minus-square-o" id="changeDone' +  tasks[i].id + '" ><span class="tooltip">Mark as not done</span></i>';
+								task_to_add += '<div class="menu_item"><i class="fa fa-minus-square-o" id="changeDone' +  tasks[i].id + '" ><span class="tooltip">Mark as not done</span></i></div>';
 							}
 							else {
-								task_to_add += '<i class="fa fa-check-square-o" id="changeDone' +  tasks[i].id + '" ><span class="tooltip">Mark as done</span></i>';
+								task_to_add += '<div class="menu_item"><i class="fa fa-check-square-o" id="changeDone' +  tasks[i].id + '" ><span class="tooltip">Mark as done</span></i></div>';
 							}
 							
-							task_to_add += '<i class="fa fa-pencil-square-o" id="edit' +  tasks[i].id + '" ><span class="tooltip">Edit</span></i>';
-							task_to_add += '<i class="fa fa-trash-o" id="delete' +  tasks[i].id + '" ><span class="tooltip">Delete</span></i>';
+							task_to_add += '<div class="menu_item"><i class="fa fa-pencil-square-o" id="edit' +  tasks[i].id + '" ><span class="tooltip">Edit</span></i></div>';
+							task_to_add += '<div class="menu_item"><i class="fa fa-trash-o" id="delete' +  tasks[i].id + '" ><span class="tooltip">Delete</span></i></div>';
 						task_to_add += '</div>';
 						/* end of div for icons on the left */
 					

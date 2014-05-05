@@ -70,25 +70,28 @@ span {
 /* Individual task */
 .task {
 	position:relative;
-	padding-top: 0px;
 	padding-bottom: 0px;	
 	padding-right: 15px;
 	margin-bottom: 10px;
 	vertical-align: bottom;
 	color:black;
-	height:90px;
+	height:120px;
 	border:2px solid #a1a1a1;
-	border-radius:25px;
-	
+	border-radius:25px;	
 	cursor: -webkit-grab; cursor: -moz-grab;
 }
 
 /* left part of task (the menu) */
 .task_left{
-	margin-top: 0px;
+	margin-top: 3px;
 	margin-left: 15px;
     float:left;
 	width: 5px;
+	height: 100%;
+}
+
+.menu_item {
+	height: 25%;
 }
 
 /* Right part of a task (everything besides the menu) */
@@ -101,7 +104,8 @@ span {
 /* Name of task*/
 .task_text {
 	font-size: 30px;
-	padding-bottom: 15px;
+	padding-top: 25px;
+	padding-bottom: 20px;
 	overflow: hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap;
