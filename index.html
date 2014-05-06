@@ -133,12 +133,18 @@
 
 		callback = function() {
 			$("body").css("cursor", "default");
+			
+			var returnAddress = 'main%20page%20v1%204-10-14.html';
+			if ($.getUrlVar('returnAddress')) {
+				returnAddress = $.getUrlVar('returnAddress');
+			}
+			
 			if ($.getUrlVar('startDate')) {
-				document.location = 'main%20page%20v1%204-10-14.html?startDate=' + $.getUrlVar('startDate');
+				document.location = returnAddress + '?startDate=' + $.getUrlVar('startDate');
 			}
 			else
 			{
-				document.location = 'main%20page%20v1%204-10-14.html';
+				document.location = returnAddress;
 			}
 		};
 
