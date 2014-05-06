@@ -151,6 +151,7 @@
 		$('#datepicker').keyup(validateDeadline);
 		$('#assigned').keyup(validateAssigned);
 		$('#reward').keyup(validateReward);
+		$('#days_weeks').keyup(validateDaysWeeks);
 	}
 
 	function validateAssigned() {
@@ -201,12 +202,57 @@
 	function validateDaysWeeks() {
 		if ($.isNumeric($('#days_weeks').val())){
 			$('#days_weeks')[0].setCustomValidity('');
+			return true;
 		}
 		else {
-			$('days_weeks')[0].setCustomValidity('Enter a number');
+			$('#days_weeks')[0].setCustomValidity('Enter a number');
+			return false;
 		}
 	}
-
+	
+	function validateDayOfWeekChosen(){
+		if ($('#dropdown_type').val() == 'weekly'){  //if weekly
+			var isValid = false;
+			$(".repeatDay").each(function(index) {
+				if ($(this).is(':checked')) {
+					isValid = true;
+				}
+			});
+			return isValid;
+		}
+		else { //if daily we don't care
+			return true;
+		}
+	}
+	
+	function validateEndingDate(){
+		//if ends on is chosen
+		if ($('#ends_on').is(':checked')){
+			//if there is date selected return true
+			if ($('#end_date').val()){
+				$('#end_date')[0].setCustomValidity('');
+				return true;
+			}
+			else{
+				$('#end_date')[0].setCustomValidity('Required field');
+				return false
+			}
+		}
+		else{
+			return true;
+		}
+	}
+	
+	function validateRepeatForm(){
+		var isValid = true;
+		
+		isValid = isValid & validateDaysWeeks();
+		isValid = isValid & validateDayOfWeekChosen();
+		isValid = isValid & validateEndingDate();
+		
+		return isValid;
+	}
+	
 	function validateForm() {
 		var valid = true;
 
@@ -245,87 +291,64 @@
 	});
 
 	$(function() {
-		/*
-		var name = $( "#name" ),
-		  email = $( "#email" ),
-		  password = $( "#password" ),
-		  allFields = $( [] ).add( name ).add( email ).add( password ),
-		  tips = $( ".validateTips" );
-
-		function updateTips( t ) {
-		  tips
-			.text( t )
-			.addClass( "ui-state-highlight" );
-		  setTimeout(function() {
-			tips.removeClass( "ui-state-highlight", 1500 );
-		  }, 500 );
-		}
-
-		function checkLength( o, n, min, max ) {
-		  if ( o.val().length > max || o.val().length < min ) {
-			o.addClass( "ui-state-error" );
-			updateTips( "Length of " + n + " must be between " +
-			  min + " and " + max + "." );
-			return false;
-		  } else {
-			return true;
-		  }
-		}
-
-		function checkRegexp( o, regexp, n ) {
-		  if ( !( regexp.test( o.val() ) ) ) {
-			o.addClass( "ui-state-error" );
-			updateTips( n );
-			return false;
-		  } else {
-			return true;
-		  }
-		}*/
-
+	
 		$("#dialog-form").dialog({
 			autoOpen: false,
 			height: 400,
 			width: 540,
 			modal: true,
-			buttons: {
-				Done: function() {
-					if ($("#repeatCheck")[0].checked) {
-						var daily_weekly = $('#dropdown_type').val();				
-						
-						taskRepeat = {};
-						
-						//Daily/Weekly
-						taskRepeat.type = daily_weekly;
-						
-						//How often to repeat
-						taskRepeat.frequency = $('#days_weeks').val();
-						
-						//If Weekly then get days it repeats on
-						if (taskRepeat.type.toLowerCase() == 'weekly') {
-							taskRepeat.days = new Array();
-							$(".repeatDay").each(function(index) {
-								if ($(this).is(':checked')) {
-									taskRepeat.days.push($(this).val());
+			buttons: [
+				{
+					text: 'Done',
+					type: 'submit',
+					form: 'repeat_form',
+					click: function() {
+						if ($("#repeatCheck")[0].checked) {
+							if (validateRepeatForm()){
+								var daily_weekly = $('#dropdown_type').val();				
+								
+								taskRepeat = {};
+								
+								//Daily/Weekly
+								taskRepeat.type = daily_weekly;
+								
+								//How often to repeat
+								taskRepeat.frequency = $('#days_weeks').val();
+								
+								//If Weekly then get days it repeats on
+								if (taskRepeat.type.toLowerCase() == 'weekly') {
+									taskRepeat.days = new Array();
+									$(".repeatDay").each(function(index) {
+										if ($(this).is(':checked')) {
+											taskRepeat.days.push($(this).val());
+										}
+									});
 								}
-							});
+								
+								//Ends: Never/Ends on [date]
+								taskRepeat.end = $('input[type="radio"]:checked').val();
+								
+								//If "Ends on" then get date
+								if (taskRepeat.end == 'date') {
+									taskRepeat.endDate = new Date($('#end_date').val())
+								}
+								
+								setRepeatText();
+							}
 						}
-						
-						//Ends: Never/Ends on [date]
-						taskRepeat.end = $('input[type="radio"]:checked').val();
-						
-						//If "Ends on" then get date
-						if (taskRepeat.end == 'date') {
-							taskRepeat.endDate = new Date($('#end_date').val())
+						if (validateRepeatForm()){
+							$(this).dialog("close");
 						}
-						
-						setRepeatText();
 					}
-					$(this).dialog("close");
-			},
-				Cancel: function() {
-				  $(this).dialog("close");
+				},
+				{
+					text: 'Cancel',
+					form: 'repeat_form',
+					click: function() {
+					  $(this).dialog("close");
+					}
 				}
-			},
+			],
 			close: function() {
 				//allFields.val("").removeClass("ui-state-error");
 			},
@@ -456,7 +479,7 @@
 
 	<div id="dialog-form" title="Repeat Details">
 	<br>
-	  <form>
+	  <form id="repeat_form">
 		<table id="form_table">
 			<tr>
 				<td>
@@ -482,13 +505,13 @@
 					<label for="end_date">Ends: </label>
 				</td>
 				<td>
-					<input type="radio" name="end_date" value="never" checked>Never</input>
+					<input type="radio" name="end_date" id="never" value="never" checked>Never</input>
 				</td>
 			</tr>
 			<tr>
 				<td></td>
 				<td>
-					<input type="radio" name="end_date" value="date">Ends on: </input>
+					<input type="radio" name="end_date" id="ends_on" value="date">Ends on: </input>
 					<input type="text" name="end_date" id="end_date" value="" class="text ui-widget-content ui-corner-all">
 				</td>
 			</tr>
