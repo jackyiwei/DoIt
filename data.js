@@ -104,7 +104,7 @@ var Data = function(callback) {
 		index = this.getTaskIndex(id);		
 		var task = (index > -1) ? tasks.splice(index, 1) : null;
 		
-		this.deleteTaskJSON(task.id, callback);
+		this.deleteTaskJSON(id, callback);
 		
 		return task;
 	}

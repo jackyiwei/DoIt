@@ -277,16 +277,48 @@
 		
 		e.preventDefault();
 		
+		if (!$('#repeatCheck').is(':checked')) {
+			taskRepeat = null;
+		}
+		
 		var reminders = new Array();
 		$(".reminder").each(function(index) {
 			reminders.push($(this).val());
 		});			
-		
-		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id'))) {
+
+		var task = null;
+		if ($.getUrlVar('id') && d.getTask($.getUrlVar('id')))
+		{
 			task = d.getTask($.getUrlVar('id'));
-			d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
+			
+			//This part handles editing tasks that had a repeat by deleting all old instances and just re-creating the task (and all occurrences, if necessary)
+			if (task.repeat) {
+				if (confirm('This will change all existing occurences in the series. Are you sure you want to continue?')) {
+					d.deleteRepeatTasks(task.id, function() {
+						d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
+					});
+				}
+				else {
+					$("body").css("cursor", "default");
+				}
+				task = null;
+			}
+		}			
+		
+		if (task) {
+			if (taskRepeat) {
+				//If making a non-repeating task into a repeat task then just delete the old task and create it with a repeat in place.
+				d.deleteTask(task.id, function() {
+					d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
+				});
+			}
+			else {
+				//Editing a task that didn't have and doesn't have a repeat
+				d.updateTask($.getUrlVar('id'), $('#taskTitle').val(), new Date($('#datepicker').val()), null, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), callback);
+			}
 		}
 		else {
+			//Creating a new task that might have a repeat
 			d.createTask($('#taskTitle').val(), new Date($('#datepicker').val()), taskRepeat, $('#assigned').val(), parseInt($('#reward').val()), reminders, $('#details').val(), null, callback);
 		}
 
@@ -356,7 +388,6 @@
 				}
 			],
 			focus: function(){
-				taskRepeat = null;
 				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 				if (daily_weekly){
 					$('#day_week_Text').html(' weeks');
