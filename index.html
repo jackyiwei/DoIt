@@ -145,7 +145,7 @@
 
 		$("#details").width($("#formLabels").width() + $("#taskTitle").width() + 6);
 
-		$('form').bind('submit', submitForm);
+		$('#form').bind('submit', submitForm);
 
 		$('#taskTitle').keyup(validateTaskName);
 		$('#datepicker').keyup(validateDeadline);
@@ -295,14 +295,14 @@
 		$("#dialog-form").dialog({
 			autoOpen: false,
 			height: 400,
-			width: 540,
+			width: 560,
 			modal: true,
 			buttons: [
 				{
 					text: 'Done',
 					type: 'submit',
 					form: 'repeat_form',
-					click: function() {
+					click: function(e) {
 						if ($("#repeatCheck")[0].checked) {
 							if (validateRepeatForm()){
 								var daily_weekly = $('#dropdown_type').val();				
@@ -338,20 +338,19 @@
 						}
 						if (validateRepeatForm()){
 							$(this).dialog("close");
-						}
+							e.preventDefault();
+						}						
 					}
 				},
 				{
 					text: 'Cancel',
 					form: 'repeat_form',
 					click: function() {
-					  $(this).dialog("close");
+						taskRepeat = null;
+						$(this).dialog("close");
 					}
 				}
 			],
-			close: function() {
-				//allFields.val("").removeClass("ui-state-error");
-			},
 			focus: function(){
 				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 				if (daily_weekly){
@@ -380,7 +379,8 @@
 		}
 		
 		if (taskRepeat.endDate) {
-			t += ' until ' + taskRepeat.endDate /*.format("mm/dd/yy") */;
+			var dateArr = taskRepeat.endDate.toString().split('00:00:00') /*.format("mm/dd/yy") */;
+			t += ' until ' + dateArr[0];
 		}
 		
 		$('#checkText').html(t);
