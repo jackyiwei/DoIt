@@ -163,9 +163,9 @@ var Data = function(callback) {
 						"done":false};
 		
 		nextTaskId++;
-		tasks.push(newTask);
+		tasks.push(newTask);			
 				
-		if (repeat) {			
+		if (repeat) {
 			tasksToSave = new Array();
 		
 			//Set the "endDate" to be the earliest of the actual end date or the end of this year.
@@ -225,9 +225,9 @@ var Data = function(callback) {
 		}
 		
 		//Don't save "child" tasks, or tasks that have repeat
-		if (!parentId && !repeat) {			
+		if (!parentId && !repeat) {
 			this.saveTask(newTask, callback);
-		}
+		}			
 		
 		return newTask;
 	}
