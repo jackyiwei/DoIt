@@ -66,7 +66,10 @@ var Data = function(callback) {
 	
 	this.getAllTasksSimple = function() {
 		var simpleTasks = new Array();
-		for (var i = 0; i < tasks.length ; i++) {		
+		for (var i = 0; i < tasks.length ; i++) {	
+			if (tasks[i].repeat) {
+				continue;
+			}
 			var date = new Date(tasks[i].year, tasks[i].month, tasks[i].day);
 			var simpleTask = {text: tasks[i].assigned + ': ' + tasks[i].name, start_date: date, end_date: date};
 			simpleTasks.push(simpleTask);

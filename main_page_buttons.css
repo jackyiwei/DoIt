@@ -45,21 +45,26 @@ button:active {
 .create_task_button {
 	display: inline-block;
 	height:30px;
-	width:200px;
+	/*width:180px;*/
 	font-size: 20px;
+	padding-left:10px;
+	padding-right:10px;
 }
 
 .agenda_button {
 	display: inline-block;
 	height: 30px;
-	font-size: 18px;
+	font-size: 20px;
+	padding-left:10px;
+	padding-right:10px;
 }
 
 .month_button {
 	display: inline-block;
-	height: 30px;
-	
-	font-size: 18px;
+	height: 30px;	
+	font-size: 20px;
+	padding-left:10px;
+	padding-right:10px;
 }
 
 .calendar_button {
@@ -72,7 +77,10 @@ button:active {
 .calendar_button_today {
 	display: inline-block;
 	height: 30px;
-	width: 80px;
+	padding-left:10px;
+	padding-right:10px;
+	/* width: 80px;*/
 	font-size: 20px;
 	text-align: center;
+	margin-left: 10px;
 }

@@ -215,6 +215,10 @@
 				document.location = 'index.html?startDate=' + startDate.getTime();
 			});
 			
+			$('#Month_Button').click(function (e) {
+				document.location = 'calendar.html?startDate=' + startDate.getTime();
+			});
+			
 			d = new Data(doneLoading);
 		});
 
@@ -344,7 +348,8 @@
   <body>
 	<div class="top_level">
 		<div class="controls">
-			<button class="create_task_button" id="Create_Task_Button">Create Task</button>			
+			<button class="create_task_button" id="Create_Task_Button">Create Task</button>
+			<button class="month_button" id="Month_Button">Month View</button>
 			<button class="calendar_button_today" id="Calendar_Button_Today">Today</button>
 			<button class="calendar_button" id="Calendar_Button_Left"><</button>
 			<button class="calendar_button" id="Calendar_Button_Right">></button>
@@ -352,9 +357,8 @@
 		</div>
 		<div class="logo">
 			Do.It
-			<br>
-			<button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
-			<button class="month_button" id="Month_Button">Month View</button>			
+			<!-- <button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
+			<button class="month_button" id="Month_Button">Month View</button> -->
 		</div>
 	</div>	
 
