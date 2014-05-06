@@ -303,55 +303,52 @@
 					type: 'submit',
 					form: 'repeat_form',
 					click: function(e) {
-						if ($("#repeatCheck")[0].checked) {
-							if (validateRepeatForm()){
-								var daily_weekly = $('#dropdown_type').val();				
-								
-								taskRepeat = {};
-								
-								//Daily/Weekly
-								taskRepeat.type = daily_weekly;
-								
-								//How often to repeat
-								taskRepeat.frequency = $('#days_weeks').val();
-								
-								//If Weekly then get days it repeats on
-								if (taskRepeat.type.toLowerCase() == 'weekly') {
-									taskRepeat.days = new Array();
-									$(".repeatDay").each(function(index) {
-										if ($(this).is(':checked')) {
-											taskRepeat.days.push($(this).val());
-										}
-									});
-								}
-								
-								//Ends: Never/Ends on [date]
-								taskRepeat.end = $('input[type="radio"]:checked').val();
-								
-								//If "Ends on" then get date
-								if (taskRepeat.end == 'date') {
-									taskRepeat.endDate = new Date($('#end_date').val())
-								}
-								
-								setRepeatText();
-							}
-						}
 						if (validateRepeatForm()){
+							var daily_weekly = $('#dropdown_type').val();				
+							
+							taskRepeat = {};
+							
+							//Daily/Weekly
+							taskRepeat.type = daily_weekly;
+							
+							//How often to repeat
+							taskRepeat.frequency = $('#days_weeks').val();
+							
+							//If Weekly then get days it repeats on
+							if (taskRepeat.type.toLowerCase() == 'weekly') {
+								taskRepeat.days = new Array();
+								$(".repeatDay").each(function(index) {
+									if ($(this).is(':checked')) {
+										taskRepeat.days.push($(this).val());
+									}
+								});
+							}
+							
+							//Ends: Never/Ends on [date]
+							taskRepeat.end = $('input[type="radio"]:checked').val();
+							
+							//If "Ends on" then get date
+							if (taskRepeat.end == 'date') {
+								taskRepeat.endDate = new Date($('#end_date').val())
+							}
+							
+							setRepeatText();
+							$('#repeatCheck').prop('checked', true);
 							$(this).dialog("close");
 							e.preventDefault();
-						}						
+						}
 					}
 				},
 				{
 					text: 'Cancel',
 					form: 'repeat_form',
 					click: function() {
-						taskRepeat = null;
 						$(this).dialog("close");
 					}
 				}
 			],
 			focus: function(){
+				taskRepeat = null;
 				var daily_weekly = document.getElementById("dropdown_type").selectedIndex;
 				if (daily_weekly){
 					$('#day_week_Text').html(' weeks');
@@ -359,6 +356,9 @@
 				else {
 					$('#day_week_Text').html(' days');
 				}
+			},
+			open: function() {				
+				$('#repeatCheck').prop('checked', false);
 			}
 		});
 	});
