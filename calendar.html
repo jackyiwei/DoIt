@@ -26,6 +26,9 @@
 
 		d = new Data(doneLoading);
 
+		$('#Agenda_Button').click(function (e) {
+			document.location = 'main%20page%20v1%204-10-14.html';
+		});
 	}
 	
 	function doneLoading() {
@@ -40,17 +43,15 @@
 <body onload = "init();">
 	<div class="top_level">
 		<div class="controls">
-			<button class="create_task_button" id="Create_Task_Button">Create Task</button>			
+			<button class="create_task_button" id="Create_Task_Button">Create Task</button>
+			<button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
 			<button class="calendar_button_today" id="Calendar_Button_Today">Today</button>
 			<button class="calendar_button" id="Calendar_Button_Left"><</button>
 			<button class="calendar_button" id="Calendar_Button_Right">></button>
-			<div class="calendar_date_text">April 13-19, 2014</div>
+			<div class="calendar_date_text">May, 2014</div>
 		</div>
 		<div class="logo">
 			Do.It
-			<br>
-			<button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
-			<button class="month_button" id="Month_Button">Month View</button>			
 		</div>
 	</div>	
 
