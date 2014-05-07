@@ -75,7 +75,7 @@ hr{
 }
 
 /* tooltips for task menu items */
-.fa span {	
+.fa span {
 	position: absolute;
 	display: none;
 }
@@ -83,25 +83,25 @@ hr{
 /* tooltips for task menu items */
 .fa:hover span {
 	color: black;
-	border-radius: 5px 5px; 
-	-moz-border-radius: 5px; 
-	-webkit-border-radius: 5px; 
-	
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
-	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); 
+	border-radius: 5px 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
-	
-	position: absolute; 
-	left: 1em; 
-	top: 1em; 
+
+	position: absolute;
+	left: 1em;
+	top: 1em;
 	z-index: 999;
-	margin-left: 0; 
+	margin-left: 0;
 	white-space: nowrap;
-	
+
 	padding: 0.8em 1em;
-	background: #FFFFAA; 
+	background: #FFFFAA;
 	border: 1px solid #FFAD33;
-	
+
 	display: initial;
 }
 
@@ -127,3 +127,4 @@ hr{
 #assigned {
 	text-transform: capitalize;
 }
+

@@ -4,19 +4,19 @@
 	<title>Do.It</title>
 
 	<script type="text/javascript" src="data.js"></script>
-   
+
     <script src="dhtmlxScheduler/sources/dhtmlxscheduler.js" type="text/javascript"></script>
     <link rel="stylesheet" href="dhtmlxScheduler/sources/dhtmlxscheduler.css" type="text/css">
-	
+
 	<script type="text/javascript" src="external_js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="jquery-ui-1.10.4 3.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
 	<script type="text/javascript" src="external_js/jquery.json-2.4.js"></script>
 
 
-	<link href='http://fonts.googleapis.com/css?family=Fredericka the Great' rel='stylesheet' type='text/css'>	
+	<link href='http://fonts.googleapis.com/css?family=Fredericka the Great' rel='stylesheet' type='text/css'>
     <link type="text/css" href="main_page_style.css" rel="stylesheet" />
 	<link type="text/css" href="main_page_buttons.css" rel="stylesheet" />
-	
+
     <script type="text/javascript" charset="utf-8">
 	function init() {
 		scheduler.config.multi_day = true;
@@ -29,12 +29,36 @@
 		$('#Agenda_Button').click(function (e) {
 			document.location = 'main%20page%20v1%204-10-14.html';
 		});
-		
+
 		$('#Create_Task_Button').click(function(e) {
 			document.location = 'index.html?returnAddress=calendar.html';
 		});
 	}
-	
+
+    function leftFunction()
+    {
+            document.getElementById('left').click();
+            var date1 = document.getElementById('update_day');
+            var date2 = document.getElementById('curr_date');
+            date1.innerHTML = date2.innerHTML;
+    }
+
+    function rightFunction()
+    {
+            document.getElementById('right').click()
+            var date1 = document.getElementById('update_day');
+            var date2 = document.getElementById('curr_date');
+            date1.innerHTML = date2.innerHTML;
+    }
+
+    function todayFunction()
+    {
+            document.getElementById('today').click()
+            var date1 = document.getElementById('update_day');
+            var date2 = document.getElementById('curr_date');
+            date1.innerHTML = date2.innerHTML;
+    }
+
 	function doneLoading() {
 		scheduler.parse(d.getAllTasksSimple(),"json");
 	}
@@ -49,28 +73,29 @@
 		<div class="controls">
 			<button class="create_task_button" id="Create_Task_Button">Create Task</button>
 			<button class="agenda_button" id="Agenda_Button">Weekly Agenda</button>
-			<button class="calendar_button_today" id="Calendar_Button_Today">Today</button>
-			<button class="calendar_button" id="Calendar_Button_Left"><</button>
-			<button class="calendar_button" id="Calendar_Button_Right">></button>
-			<div class="calendar_date_text">May, 2014</div>
+			<button onclick = "todayFunction()"class="calendar_button_today" id="Calendar_Button_Today">Today</button>
+			<button onclick = "leftFunction()" class="calendar_button" id="Calendar_Button_Left"><</button>
+			<button onclick = "rightFunction()"class="calendar_button" id="Calendar_Button_Right">></button>
+
+			<div class="calendar_date_text" id = "update_day">May 2014</div>
 		</div>
 		<div class="logo">
 			Do.It
 		</div>
-	</div>	
+	</div>
 
 	<hr></hr>
 
 
-	<div id="scheduler_here" class="dhx_cal_container" style='position: absolute; top: 200px; bottom: 20px; width: 90%; padding: 20px;'>
-		<div class="dhx_cal_navline">
-			<div class="dhx_cal_prev_button">&nbsp;</div>
-			<div class="dhx_cal_next_button">&nbsp;</div>
-			<div class="dhx_cal_today_button"></div>
-			<div class="dhx_cal_date"></div>
-			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+	<div id="scheduler_here" class="dhx_cal_container" style='position: absolute; top: 120px; bottom: 20px; width: 90%; padding: 20px;'>
+		<div class="dhx_cal_navline" style = "display:none;">
+
+			<div class="dhx_cal_prev_button" id = "left">&nbsp;</div>
+			<div class="dhx_cal_next_button" id = "right">&nbsp;</div>
+			<div class="dhx_cal_today_button" id = "today"></div>
+
+            <div class="dhx_cal_date" id = "curr_date"></div>
+
 		</div>
 		<div class="dhx_cal_header"></div>
 		<div class="dhx_cal_data"></div>
